@@ -1,4 +1,8 @@
 #include "ManageSys.h"
+#include "CommandInvoker.h"
+#include "AddToCartCommand.h"
+#include "Command.h"
+#include "CheckOutCommand.h"
 
 void printHelp() {
     cout << "Available Commands:" << endl;
@@ -20,6 +24,7 @@ int main() {
     ManageSys* manager = ManageSys::getInstance();
     string command;
     static vector<Book*> cart;
+    CommandInvoker invoker;
 
     cout << "Welcome to the Bookstore Management System!" << endl;
     cout << "Type 'help' for a list of commands." << endl;
@@ -187,62 +192,25 @@ int main() {
                 }
             }
         }
-        else if (command.rfind("Add",0) == 0) {
-            // Command: Add a book to cart by its ID
+        else if (command.rfind("Add", 0) == 0) {
             if (manager->getCurrentUser() == nullptr) {
                 cout << "You must log in first." << endl;
             } else if (manager->getCurrentUser()->getType() == "customer") {
                 string bookId = command.substr(4);
-                Book* book = manager->getBookById(bookId);
-                if (book != nullptr) {
-                    if(book->getStock() == 0) {
-                        cout << "Book out of stock." << endl;
-                        continue;
-                    }
-                    book->updateStock(-1);
-                    cart.push_back(book);
-                    cout << "Book added to cart." << endl;
-                } else {
-                    cout << "Book not found." << endl;
-                }
+                AddToCartCommand* addToCart = new AddToCartCommand(manager, bookId, cart);
+                invoker.executeCommand(addToCart);
             }
         }
-        else if (command.rfind("Check out",0) == 0) {
-            // Command: Check out
+
+        else if (command.rfind("Check out", 0) == 0) {
             if (manager->getCurrentUser() == nullptr) {
                 cout << "You must log in first." << endl;
-            } else {
-                if (manager->getCurrentUser()->getType() == "customer") {
-                    if (cart.empty()) {
-                        cout << "Cart is empty." << endl;
-                    } 
-                    else {
-                        cout << "Your cart:" << endl;
-                        manager->printBooks(cart);
-                        cout << "Total amount: ";
-                        float totalAmount = 0;
-                        for (auto book : cart) {
-                            totalAmount += book->getPrice();
-                        }
-                        manager->getCurrentUser()->getCustomer()->display();
-                        cout << "Proceed to check out? (y/n): ";
-                        char choice;
-                        cin >> choice;
-                        if (choice == 'y') {
-                            Order* order = manager->createNewOrder(totalAmount, cart, manager->getCurrentUser()->getCustomer());
-                            manager->addOrder(order);
-                        } 
-                        else {
-                            cout << "Order cancelled." << endl;
-                        }
-                        cart.clear();
-                } 
-                }
-                else {
-                    cout << "You are not authorized to access this feature." << endl;
-                }
+            } else if (manager->getCurrentUser()->getType() == "customer") {
+                CheckoutCommand* checkout = new CheckoutCommand(manager, cart);
+                invoker.executeCommand(checkout);
+            }
         }
-        }
+
         else if (command.rfind("help",0) == 0){
             printHelp();
         }
