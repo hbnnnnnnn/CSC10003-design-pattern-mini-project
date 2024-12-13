@@ -1,6 +1,7 @@
 #pragma once
 
 #include "UserState.h"
+#include "Customer.h"
 
 class NormalUserState : public UserState {
 public:

@@ -2,18 +2,24 @@
 
 void printHelp() {
     cout << "Available Commands:" << endl;
-    cout << "1. Login" << endl;
-    cout << "2. System - System management" << endl;
-    cout << "3. Search - Search for books" << endl;
-    cout << "3. delete <id> - Delete a book by its ID" << endl;
-    cout << "4. help - Show this help message" << endl;
-    cout << "5. exit - Exit the program" << endl;
+    int i = 1;
+    cout << i++ << ". Login" << endl;
+    cout << i++ << ". Sign up" << endl;
+    cout << i++ << ". System - System management" << endl;
+    cout << i++ << ". Search - Search for books" << endl;
+    cout << i++ << ". View <BookID> - View detail of a book <BookID>" << endl;
+    cout << i++ << ". Add <BookID> - Add a book to cart" << endl;
+    cout << i++ << ". Check out - order information" << endl;
+    cout << i++ << ". help - Show this help message" << endl;
+    cout << i++ << ". exit - Exit the program" << endl;
+    
 }
 
 ManageSys* ManageSys::instance = nullptr;
 int main() {
     ManageSys* manager = ManageSys::getInstance();
     string command;
+    static vector<Book*> cart;
 
     cout << "Welcome to the Bookstore Management System!" << endl;
     cout << "Type 'help' for a list of commands." << endl;
@@ -25,7 +31,7 @@ int main() {
         if (command.rfind("Login", 0) == 0) {
             // Command: Log-in (admin/ normal)
             cout << "1. Admin" << endl;
-            cout << "2. Normal" << endl;
+            cout << "2. Customer" << endl;
             cout << "Enter user type (1-2): ";
             int choice;
             cin >> choice;
@@ -38,7 +44,7 @@ int main() {
             if (choice == 1) {
                 userType = "admin";
             } else {
-                userType = "normal";
+                userType = "customer";
             }
             cout << "Enter username: ";
             string username;
@@ -47,7 +53,34 @@ int main() {
             string password;
             getline(cin, password);
             manager->login(username, password, userType);
-        } else if (command.rfind("System", 0) == 0) {
+        } 
+        else if (command.rfind("Sign up", 0) == 0) {
+            // Command: Sign up (admin/ customer)
+            cout << "1. Admin" << endl;
+            cout << "2. Customer" << endl;
+            cout << "Enter user type (1-2): ";
+            int choice;
+            cin >> choice;
+            cin.ignore();
+            if (choice != 1 && choice != 2) {
+                cout << "Invalid choice. Please try again." << endl;
+                continue;
+            }
+            string userType;
+            if (choice == 1) {
+                userType = "admin";
+            } else {
+                userType = "customer";
+            }
+            cout << "Enter username: ";
+            string username;
+            getline(cin, username);
+            cout << "Enter password: ";
+            string password;
+            getline(cin, password);
+            manager->signup(username, password, userType);
+        }
+        else if (command.rfind("System", 0) == 0) {
             // Command: System Management
             if (manager->getCurrentUser() == nullptr) {
                 cout << "You must log in first." << endl;
@@ -137,6 +170,78 @@ int main() {
             } else {
                 cout << "You are not authorized to access this feature." << endl;
             }
+        }
+        else if (command.rfind("View",0) == 0) {
+            // Command: View detail of a book by its ID
+            if (manager->getCurrentUser() == nullptr) {
+                cout << "You must log in first." << endl;
+            } else {
+                string bookId = command.substr(5);
+                Book* book = manager->getBookById(bookId);
+                if (book != nullptr) {
+                    cout << "> Book Detail " << book->getId() << endl;
+                    book->display();
+                    delete book;
+                } else {
+                    cout << "Book not found." << endl;
+                }
+            }
+        }
+        else if (command.rfind("Add",0) == 0) {
+            // Command: Add a book to cart by its ID
+            if (manager->getCurrentUser() == nullptr) {
+                cout << "You must log in first." << endl;
+            } else if (manager->getCurrentUser()->getType() == "customer") {
+                string bookId = command.substr(4);
+                Book* book = manager->getBookById(bookId);
+                if (book != nullptr) {
+                    if(book->getStock() == 0) {
+                        cout << "Book out of stock." << endl;
+                        continue;
+                    }
+                    book->updateStock(-1);
+                    cart.push_back(book);
+                    cout << "Book added to cart." << endl;
+                } else {
+                    cout << "Book not found." << endl;
+                }
+            }
+        }
+        else if (command.rfind("Check out",0) == 0) {
+            // Command: Check out
+            if (manager->getCurrentUser() == nullptr) {
+                cout << "You must log in first." << endl;
+            } else {
+                if (manager->getCurrentUser()->getType() == "customer") {
+                    if (cart.empty()) {
+                        cout << "Cart is empty." << endl;
+                    } 
+                    else {
+                        cout << "Your cart:" << endl;
+                        manager->printBooks(cart);
+                        cout << "Total amount: ";
+                        float totalAmount = 0;
+                        for (auto book : cart) {
+                            totalAmount += book->getPrice();
+                        }
+                        manager->getCurrentUser()->getCustomer()->display();
+                        cout << "Proceed to check out? (y/n): ";
+                        char choice;
+                        cin >> choice;
+                        if (choice == 'y') {
+                            Order* order = manager->createNewOrder(totalAmount, cart, manager->getCurrentUser()->getCustomer());
+                            manager->addOrder(order);
+                        } 
+                        else {
+                            cout << "Order cancelled." << endl;
+                        }
+                        cart.clear();
+                } 
+                }
+                else {
+                    cout << "You are not authorized to access this feature." << endl;
+                }
+        }
         }
         else if (command.rfind("help",0) == 0){
             printHelp();

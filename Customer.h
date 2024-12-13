@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <iostream>
 
 using namespace std;
 
@@ -13,6 +14,7 @@ private:
     string shippingAddress;
 
 public:
+    Customer() = default;
     Customer(const string& id, const string& name, const string& phone, const string& email, const string& address)
         : id(id), name(name), phoneNumber(phone), email(email), shippingAddress(address) {}
 
@@ -26,4 +28,7 @@ public:
     void setPhoneNumber(const string& newPhoneNumber) { phoneNumber = newPhoneNumber; }
     void setEmail(const string& newEmail) { email = newEmail; }
     void setShippingAddress(const string& newAddress) { shippingAddress = newAddress; }
+
+    void display();
+    void input();
 };;

@@ -15,9 +15,11 @@ class Book {
     string publisher;
     float price;
     int stock;
+    string description;
     vector<Author*> authors;
 public:
     Book() = default;
+    Book(string id, string name, string genre, int year, string publisher, float price, int stock, string description) : id(id), name(name), genre(genre), year(year), publisher(publisher), price(price), stock(stock), description(description) {}
     Book(string id, string name, string genre, int year, string publisher, float price, int stock) : id(id), name(name), genre(genre), year(year), publisher(publisher), price(price), stock(stock) {}
     Book(string name, string genre, int year, string publisher, float price, int stock) : Book("", name, genre, year, publisher, price, stock) {}
     void addAuthor(Author* author);
@@ -39,4 +41,5 @@ public:
     void setPrice(float price);
     void setStock(int stock);
     void setAuthors(vector<Author*> author);
+    void updateStock(int quantity);
 };

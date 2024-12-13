@@ -7,6 +7,8 @@
 #include <algorithm>
 #include <iomanip>
 #include <sstream>
+#include <cstdlib>
+#include <ctime>
 #include "Book.h"
 #include "Customer.h"
 #include "Author.h"
@@ -52,6 +54,7 @@ public:
 
     bool login(const string& username, const string& password, const string& userType);
     void logout();
+    bool signup(const string& username, const string& password, const string& userType);
     User* getCurrentUser() { return currentUser; }
 
     // Book management
@@ -88,4 +91,8 @@ public:
     vector<Book*> searchBooks(BookSpecification* spec);
     void printBooks(vector<Book*> books);
     ~ManageSys();
+
+    void updateStock(string bookId, int quantity);
+    Order* createNewOrder(float amount, vector<Book*> productList, Customer* customer);
+    void addOrder(Order* order);
 };

@@ -13,5 +13,7 @@ public:
     string getType() const override {
         return "admin";
     }
-    ~AdminUser() {}
+    ~AdminUser() override {
+        delete state;
+    }
 };

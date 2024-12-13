@@ -10,14 +10,14 @@ void Book::removeAuthor(Author* author) {
 }
 
 void Book::display() {
-    cout << "Book ID: " << id << endl;
-    cout << "Name: " << name << endl;
-    cout << "Genre: " << genre << endl;
-    cout << "Year: " << year << endl;
-    cout << "Publisher: " << publisher << endl;
-    cout << "Price: " << price << endl;
-    cout << "Stock: " << stock << endl;
-    cout << "Authors: ";
+    cout << "> Book ID: " << id << endl;
+    cout << "> Name: " << name << endl;
+    cout << "> Genre: " << genre << endl;
+    cout << "> Year: " << year << endl;
+    cout << "> Publisher: " << publisher << endl;
+    cout << "> Price: " << price << endl;
+    cout << "> Stock: " << stock << endl;
+    cout << "> Authors: ";
     for (auto& author : authors) {
         cout << author->getName() << " ";
     }
@@ -88,3 +88,7 @@ void Book::setStock(int stock) {
 void Book::setAuthors(vector<Author*> authors) {
     this->authors = authors;
 }
+
+ void Book::updateStock(int quantity) {
+    stock += quantity;
+ }

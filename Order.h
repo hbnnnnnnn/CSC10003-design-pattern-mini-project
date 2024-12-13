@@ -20,13 +20,13 @@ class Order {
 private:
     string orderID;
     string orderDate;
-    double totalAmount;
+    float totalAmount;
     OrderStatus status;
     vector<Book*> productList;
     Customer* customer;
 
 public:
-    Order(const string& id, const string& date, double amount, OrderStatus stat, const vector<Book*>& products, Customer* cust)
+    Order(const string& id, const string& date, float amount, OrderStatus stat, const vector<Book*>& products, Customer* cust)
         : orderID(id), orderDate(date), totalAmount(amount), status(stat), productList(products), customer(cust) {}
 
     string getOrderID() const { return orderID; }

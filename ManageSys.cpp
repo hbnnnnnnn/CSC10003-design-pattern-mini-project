@@ -16,11 +16,13 @@ bool ManageSys::login(const string& username, const string& password, const stri
                 currentUser = new AdminUser(username, password);  // Assign an Admin object
                 return true;
             }
-        } else if (userType == "normal") {
+        } else if (userType == "customer") {
             auto it = normalUserCredentials.find(username);
             if (it != normalUserCredentials.end() && it->second == password) {
-                cout << "Normal user login successful!" << endl;
-                currentUser = new NormalUser(username, password);  // Assign a NormalUser object
+                cout << "Customer user login successful!" << endl;
+                Customer* customer = new Customer;
+                customer->input();
+                currentUser = new NormalUser(username, password, customer);  
                 return true;
             }
         }
@@ -49,7 +51,33 @@ void ManageSys::deleteBook(string bookId) {
     }), books.end());
 }
 
-void ManageSys::addBook(const string& title, const string& genre, int year, const string& publisher, double price, int stock, const vector<string>& authors) {
+bool ManageSys::signup(const string &username, const string &password, const string &userType)
+{
+    if (userType == "admin") {
+        auto it = adminCredentials.find(username);
+        if (it == adminCredentials.end()) {
+            adminCredentials[username] = password;
+            currentUser = new AdminUser(username, password);
+            cout << "Admin account created successfully!" << endl;
+            return true;
+        }
+    } else if (userType == "customer") {
+        auto it = normalUserCredentials.find(username);
+        if (it == normalUserCredentials.end()) {
+            normalUserCredentials[username] = password;
+            Customer* customer = new Customer;
+            customer->input();
+            currentUser = new NormalUser(username, password, customer);
+            cout << "Customer user account created successfully!" << endl;
+            return true;
+        }
+    }
+    cout << "Username already exists." << endl;
+    return false;
+}
+
+void ManageSys::addBook(const string &title, const string &genre, int year, const string &publisher, double price, int stock, const vector<string> &authors)
+{
     Book* book = new Book(title, genre, year, publisher, price, stock);
     addBook(book);
 }
@@ -246,3 +274,36 @@ ManageSys::~ManageSys()
         delete currentUser;
     }
 }
+
+void ManageSys::updateStock(string bookId, int quantity)
+{
+    Book* book = getBookById(bookId);
+    if(book) {
+        book->updateStock(quantity);
+    }
+}
+
+void ManageSys::addOrder(Order *order)
+{
+    orders.push_back(order);
+}
+
+string randomOrderId() {
+    const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    srand(time(0));
+    string orderId;
+    for (int i = 0; i < 6; i++) {
+        orderId += chars[rand() % chars.size()];
+    }
+    return orderId;
+}
+
+Order* createNewOrder(float amount, vector<Book*> productList, Customer* customer) {
+    string orderId = randomOrderId();
+    time_t now = time(0);
+    string orderDate = ctime(&now);
+    OrderStatus status = OrderStatus::Placed;
+    Order* order = new Order(orderId, orderDate, amount, status, productList, customer);
+    return order;
+}
+
