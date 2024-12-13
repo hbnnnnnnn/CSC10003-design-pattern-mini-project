@@ -21,6 +21,8 @@ void printHelp() {
     cout << i++ << ". Add <BookID, amount> - Add <amount> of <BookID> to cart." << endl;
     cout << i++ << ". Confirmation - review order information and confirm." << endl;
     cout << i++ << ". Check out - Select a payment method and complete the checkout process." << endl;
+    cout << i++ << ". Account - Account management." << endl;
+    cout << i++ << ". Order - Order management." << endl;
     cout << i++ << ". Help - Show this help message." << endl;
     cout << i++ << ". Exit - Exit the program." << endl;
     

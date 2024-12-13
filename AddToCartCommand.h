@@ -5,19 +5,22 @@ class AddToCartCommand : public Command {
 private:
     ManageSys* manager;     // Receiver
     string bookId;          // ID of the book to add
+    int amount;            // Amount of the book to add
     vector<Book*>& cart;    // Reference to the user's cart
     Book* lastAddedBook;    // Stores the last added book for undo
 
 public:
-    AddToCartCommand(ManageSys* manager, string bookId, vector<Book*>& cart)
-        : manager(manager), bookId(bookId), cart(cart), lastAddedBook(nullptr) {}
+    AddToCartCommand(ManageSys* manager, string bookId, int amount, vector<Book*>& cart)
+        : manager(manager), bookId(bookId), cart(cart), amount(amount), lastAddedBook(nullptr) {}
 
     void execute() override {
         if (manager->getCurrentUser() && manager->getCurrentUser()->getType() == "customer") {
             Book* book = manager->getBookById(bookId);
-            if (book != nullptr && book->getStock() > 0) {
-                book->updateStock(-1);
-                cart.push_back(book);
+            if (book != nullptr && book->getStock() > amount) {
+                book->updateStock(-amount);
+                while(amount--){
+                    cart.push_back(book);
+                }
                 lastAddedBook = book;
                 cout << "Book added to cart." << endl;
             } else {

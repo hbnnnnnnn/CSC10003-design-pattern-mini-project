@@ -15,4 +15,6 @@
         cout << "Enter Shipping Address: ";
         cin.ignore();
         getline(cin, shippingAddress);
+        cout << "Enter Email: ";
+        cin >> email;
   }

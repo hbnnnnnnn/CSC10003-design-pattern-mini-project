@@ -96,5 +96,5 @@ public:
     void updateStock(string bookId, int quantity);
     Order* createNewOrder(float amount, vector<pair<Book*, int>> productList, Customer* customer);
     void addOrder(Order* order);
-    void displayOrderDetails(const string& orderID)
+    void displayOrderDetails(const string& orderID);
 };
