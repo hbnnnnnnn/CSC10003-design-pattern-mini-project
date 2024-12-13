@@ -12,6 +12,7 @@
 #include "User.h"
 #include "AdminUser.h"
 #include "NormalUser.h"
+#include "BookSpecification.h"
 
 using namespace std;
 
@@ -81,4 +82,8 @@ public:
     void importBooksFromFile(const string& filename);
     void importAuthorsFromFile(const string& filename);
     void importOrdersFromFile(const string& filename);
+
+    vector<Book*> searchBooks(BookSpecification* spec);
+    void printBooks(vector<Book*> books);
+    ~ManageSys();
 };

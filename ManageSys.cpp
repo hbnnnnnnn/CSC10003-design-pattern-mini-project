@@ -178,3 +178,30 @@ void ManageSys::importAuthorsFromFile(const string& filename) {
 void ManageSys::importOrdersFromFile(const string& filename) {
     // Implementation for importing orders from file
 }
+
+vector<Book *> ManageSys::searchBooks(BookSpecification *spec)
+{
+    vector<Book*> result;
+    for(auto& book : books) {
+        if(spec->isSatisfied(book)) {
+            result.push_back(book);
+        }
+    }
+    return result;
+}
+
+ManageSys::~ManageSys()
+{
+    for(auto& book : books) {
+        delete book;
+    }
+    for(auto& author : authors) {
+        delete author;
+    }
+    for(auto& order : orders) {
+        delete order;
+    }
+    if(currentUser) {
+        delete currentUser;
+    }
+}
