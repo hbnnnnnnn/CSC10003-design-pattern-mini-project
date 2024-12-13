@@ -74,41 +74,34 @@ int main() {
                 int choice;
                 cin >> choice;
                 cin.ignore();
+                BookSpecification* spec = nullptr;
                 switch(choice) {
                     case 1: {
                         cout << "Enter book title: ";
                         string title;
                         getline(cin, title);
-                        BookTitleBookSpecification spec(title);
-                        vector<Book*> books = manager->searchBooks(&spec);
-                        manager->printBooks(books);
+                        spec = new BookTitleBookSpecification(title);
                         break;
                     }
                     case 2: {
                         cout << "Enter book genre: ";
                         string genre;
                         getline(cin, genre);
-                        BookGenreBookSpecification spec(genre);
-                        vector<Book*> books = manager->searchBooks(&spec);
-                        manager->printBooks(books);
+                        spec = new BookGenreBookSpecification(genre);
                         break;
                     }
                     case 3: {
                         cout << "Enter author name: ";
                         string author;
                         getline(cin, author);
-                        BookAuthorBookSpecification spec(author);
-                        vector<Book*> books = manager->searchBooks(&spec);
-                        manager->printBooks(books);
+                        spec = new BookAuthorBookSpecification(author);
                         break;
                     }
                     case 4: {
                         cout << "Enter publisher name: ";
                         string publisher;
                         getline(cin, publisher);
-                        BookPublisherBookSpecification spec(publisher);
-                        vector<Book*> books = manager->searchBooks(&spec);
-                        manager->printBooks(books);
+                        spec = new BookPublisherBookSpecification(publisher);
                         break;
                     }
                     case 5: {
@@ -118,14 +111,17 @@ int main() {
                         cout << "Enter maximum price: ";
                         double maxPrice;
                         cin >> maxPrice;
-                        BookPriceRangeBookSpecification spec(minPrice, maxPrice);
-                        vector<Book*> books = manager->searchBooks(&spec);
-                        manager->printBooks(books);
+                        spec = new BookPriceRangeBookSpecification(minPrice, maxPrice);
                         break;
                     }
                     default:
                         cout << "Invalid choice. Please try again." << endl;
                         break;
+                }
+                if (spec != nullptr) {
+                    vector<Book*> books = manager->searchBooks(spec);
+                    manager->printBooks(books);
+                    delete spec;
                 }
             }
         }
