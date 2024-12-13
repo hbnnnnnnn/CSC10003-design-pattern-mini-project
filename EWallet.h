@@ -13,8 +13,27 @@ public:
     EWallet(const string& walletName) : walletName(walletName) {}
 
     void input() override {
-        cout << "Enter " << walletName << " username: ";
-        cin >> walletName;
+        cout << "Choose an E-Wallet:" << endl; 
+        cout << "1. Zalopay" << endl;
+        cout << "2. Momo" << endl;
+        cout << "3. ShopeePay" << endl;
+        cout << "Enter your choice (1-3): ";
+        int choice;
+        cin >> choice;
+        switch (choice) {
+            case 1:
+                walletName = "Zalopay";
+                break;
+            case 2:
+                walletName = "Momo";
+                break;
+            case 3:
+                walletName = "ShopeePay";
+                break;
+            default:
+                cout << "Invalid choice. Please try again." << endl;
+                break;
+        }
     }
 
     bool pay(float amount) override {
