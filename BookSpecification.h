@@ -37,7 +37,9 @@ public:
     BookAuthorBookSpecification(const string& author) : author(author) {}
     bool isSatisfied(Book* item) override {
         vector<Author*> authors = item->getAuthors();
-        return find(authors.begin(), authors.end(), author) != authors.end();
+        return any_of(authors.begin(), authors.end(), [this](Author* a) {
+            return a->getName() == author;
+        });
     }
 };
 

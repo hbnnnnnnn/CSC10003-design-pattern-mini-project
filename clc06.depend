@@ -30,12 +30,14 @@
 	"AdminUser.h"
 	"AdminState.h"
 
-1734092142 c:\clc06\managesys.h
+1734094732 c:\clc06\managesys.h
 	<iostream>
 	<string>
 	<vector>
 	<unordered_map>
 	<algorithm>
+	<iomanip>
+	<sstream>
 	"Book.h"
 	"Customer.h"
 	"Author.h"
@@ -43,6 +45,7 @@
 	"User.h"
 	"AdminUser.h"
 	"NormalUser.h"
+	"BookSpecification.h"
 
 1734091309 c:\clc06\author.h
 	<iostream>
@@ -91,4 +94,11 @@
 
 1734092261 source:c:\clc06\order.cpp
 	"Order.h"
+
+1734094876 c:\clc06\bookspecification.h
+	"Book.h"
+	<algorithm>
+	<string>
+	<vector>
+	"Author.h"
 
