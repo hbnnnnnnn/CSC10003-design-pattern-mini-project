@@ -1,51 +1,87 @@
+#pragma once
 #include "ManageSys.h"
 #include "Command.h"
 
-class CheckoutCommand : public Command {
+class CheckOutCommand : public Command {
 private:
-    ManageSys* manager;      // Receiver
-    vector<Book*>& cart;     // Reference to the user's cart
-    float totalAmount;       // Total cost of the books in the cart
-    Order* lastOrder;        // Stores the last created order for undo
+    ManageSys* manager;
+    Order* order;
+    PaymentStrategy* paymentMethod;
 
 public:
-    CheckoutCommand(ManageSys* manager, vector<Book*>& cart)
-        : manager(manager), cart(cart), totalAmount(0), lastOrder(nullptr) {}
+    CheckOutCommand(Order* order, PaymentStrategy* paymentMethod)
+        : order(order), paymentMethod(paymentMethod) {}
 
     void execute() override {
+
         if (manager->getCurrentUser() && manager->getCurrentUser()->getType() == "customer") {
-            if (cart.empty()) {
+            if(order->getProductList().empty()){
                 cout << "Cart is empty." << endl;
                 return;
             }
 
-            totalAmount = 0;
-            for (auto book : cart) {
-                totalAmount += book->getPrice();
-            }
+            cout << "Order " << order->getOrderID() << " details:" << endl;
 
-            cout << "Total amount: " << totalAmount << endl;
-            cout << "Proceed to check out? (y/n): ";
-            char choice;
+            manager->printBooks(order->getProductList());
+            cout << "Total: " << order->getTotalAmount() << endl;
+            order->displayStatus();
+
+            cout << "Choose a payment method:" << endl;
+            cout << "1. Credit Card" << endl;
+            cout << "2. Bank Transfer" << endl;
+            cout << "3. E-Wallet" << endl;
+            cout << "4. COD" << endl;
+            cout << "Enter your choice (1-4): ";
+            int choice;
             cin >> choice;
-
-            if (choice == 'y') {
-                lastOrder = manager->createNewOrder(totalAmount, cart, manager->getCurrentUser()->getCustomer());
-                manager->addOrder(lastOrder);
-                cout << "Checkout successful!" << endl;
-                cart.clear();
-            } else {
-                cout << "Checkout cancelled." << endl;
+            switch (choice) {
+                case 1:
+                    paymentMethod = new CreditCard();
+                    break;
+                case 2:
+                    paymentMethod = new BankTransfer();
+                    break;
+                case 3:
+                    paymentMethod = new EWallet();
+                    break;
+                case 4:
+                    paymentMethod = new COD();
+                    break;
+                default:
+                    cout << "Invalid choice. Please try again." << endl;
+                    break;
             }
+
+            paymentMethod->input();
+            bool paid = paymentMethod->pay(order->getTotalAmount());
+
+            // Update order status
+            if(paid){
+                order->setOrderStatus({OrderStatus::Paid, OrderStatus::Shipping});
+                cout << "Payment successful. Order is now being processed for delivery." << endl;
+            }
+            else{
+                if(paymentMethod->getPaymentMethod() == "COD"){
+                    order->setOrderStatus({OrderStatus::Confirmed, OrderStatus::COD});
+                    cout << "Order confirmed for COD. Amount will be paid upon delivery." << endl;
+                }
+                else{
+                order->setOrderStatus({OrderStatus::Confirmed, OrderStatus::Pending});
+                cout << "Payment failed. Order status remains pending." << endl;
+            }
+        }
+
         } else {
             cout << "You must log in as a customer first." << endl;
         }
+
+        
     }
 
     void undo() override {
-        if (lastOrder != nullptr) {
-            manager->cancelOrder(lastOrder->getOrderID());
-            cout << "Undo: Checkout operation reverted." << endl;
+        if (order != nullptr) {
+            order->setOrderStatus({OrderStatus::Pending});
+            cout << "Undo: Payment reverted. Order status reset to pending." << endl;
         }
     }
 };

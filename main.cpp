@@ -2,20 +2,27 @@
 #include "CommandInvoker.h"
 #include "AddToCartCommand.h"
 #include "Command.h"
+#include "ConfirmationCommand.h"
 #include "CheckOutCommand.h"
+#include "CreditCard.h"
+#include "BankTransfer.h"
+#include "EWallet.h"
+#include "COD.h"
+#include "PaymentStrategy.h"
 
 void printHelp() {
     cout << "Available Commands:" << endl;
     int i = 1;
-    cout << i++ << ". Login" << endl;
-    cout << i++ << ". Sign up" << endl;
-    cout << i++ << ". System - System management" << endl;
-    cout << i++ << ". Search - Search for books" << endl;
-    cout << i++ << ". View <BookID> - View detail of a book <BookID>" << endl;
-    cout << i++ << ". Add <BookID> - Add a book to cart" << endl;
-    cout << i++ << ". Check out - order information" << endl;
-    cout << i++ << ". help - Show this help message" << endl;
-    cout << i++ << ". exit - Exit the program" << endl;
+    cout << i++ << ". Login." << endl;
+    cout << i++ << ". Sign up." << endl;
+    cout << i++ << ". System - System management." << endl;
+    cout << i++ << ". Search - Search for books." << endl;
+    cout << i++ << ". View <BookID> - View detail of a book <BookID>." << endl;
+    cout << i++ << ". Add <BookID> - Add a book to cart." << endl;
+    cout << i++ << ". Confirmation - review order information and confirm." << endl;
+    cout << i++ << ". Check out - Select a payment method and complete the checkout process." << endl;
+    cout << i++ << ". Help - Show this help message." << endl;
+    cout << i++ << ". Exit - Exit the program." << endl;
     
 }
 
@@ -25,6 +32,7 @@ int main() {
     string command;
     static vector<Book*> cart;
     CommandInvoker invoker;
+    Order* lastOrder = nullptr;
 
     cout << "Welcome to the Bookstore Management System!" << endl;
     cout << "Type 'help' for a list of commands." << endl;
@@ -197,19 +205,60 @@ int main() {
                 cout << "You must log in first." << endl;
             } else if (manager->getCurrentUser()->getType() == "customer") {
                 string bookId = command.substr(4);
-                AddToCartCommand* addToCart = new AddToCartCommand(manager, bookId, cart);
+                Command* addToCart = new AddToCartCommand(manager, bookId, cart);
                 invoker.executeCommand(addToCart);
             }
         }
+
+        else if (command.rfind("Confirmation", 0) == 0) {
+            if (manager->getCurrentUser() == nullptr) {
+                cout << "You must log in first." << endl;
+            } else if (manager->getCurrentUser()->getType() == "customer") {
+                Command* confirmation = new ConfirmationCommand(manager, cart);
+                invoker.executeCommand(confirmation);
+                lastOrder = confirmation->getLastOrder();
+            }
+        }
+
+        
 
         else if (command.rfind("Check out", 0) == 0) {
             if (manager->getCurrentUser() == nullptr) {
                 cout << "You must log in first." << endl;
             } else if (manager->getCurrentUser()->getType() == "customer") {
-                CheckoutCommand* checkout = new CheckoutCommand(manager, cart);
-                invoker.executeCommand(checkout);
+                cout << "Select a payment method:" << endl;
+                cout << "> 1. Credit Card" << endl;
+                cout << "> 2. Bank Transfer" << endl;
+                cout << "> 3. EWallet" << endl;
+                cout << "> 4. COD"  << endl;
+                cout << "> Enter your choice (1-4): ";
+                int choice;
+                cin >> choice;
+                PaymentStrategy* paymentMethod = nullptr;
+                switch(choice) {
+                    case 1:
+                        paymentMethod = new CreditCard();
+                        break;
+                    case 2:
+                        paymentMethod = new BankTransfer();
+                        break;
+                    case 3:
+                        paymentMethod = new EWallet("Momo");
+                        break;
+                    case 4:
+                        paymentMethod = new COD();
+                        break;
+                    default:
+                        cout << "Invalid choice. Please try again." << endl;
+                        break;
+                }
+                if(paymentMethod != nullptr) {
+                    paymentMethod->input();
+                    Command* checkOut = new CheckOutCommand(lastOrder, paymentMethod);
+                    invoker.executeCommand(checkOut);
             }
         }
+        
 
         else if (command.rfind("help",0) == 0){
             printHelp();
