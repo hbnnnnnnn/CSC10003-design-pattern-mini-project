@@ -190,6 +190,47 @@ vector<Book *> ManageSys::searchBooks(BookSpecification *spec)
     return result;
 }
 
+string joinAuthors(const vector<Author*>& authors, const string& delimiter = ", ") {
+    ostringstream oss;
+    for (size_t i = 0; i < authors.size(); ++i) {
+        oss << authors[i];
+        if (i < authors.size() - 1) {
+            oss << delimiter; // Add delimiter between authors
+        }
+    }
+    return oss.str();
+}
+
+void ManageSys::printBooks(vector<Book*> books)
+{
+    // Define column widths
+    const int idWidth = 10;
+    const int titleWidth = 30;
+    const int authorWidth = 40;
+    const int priceWidth = 10;
+
+    // Print table header
+    cout << "| " << left << setw(idWidth) << "Ma sach"
+         << "| " << setw(titleWidth) << "Ten sach"
+         << "| " << setw(authorWidth) << "Tac gia"
+         << "| " << setw(priceWidth) << "Gia ban"
+         << " |" << endl;
+    cout << "|-" << setfill('-') << setw(idWidth) << ""
+         << "|-" << setw(titleWidth) << ""
+         << "|-" << setw(authorWidth) << ""
+         << "|-" << setw(priceWidth) << ""
+         << "-|" << setfill(' ') << endl;
+
+    // Print table rows
+    for (const auto& book : books) {
+        cout << "| " << left << setw(idWidth) << book->getId()
+             << "| " << setw(titleWidth) << book->getName()
+             << "| " << setw(authorWidth) << joinAuthors(book->getAuthors())
+             << "| " << setw(priceWidth) << fixed << setprecision(0) << book->getPrice()
+             << " |" << endl;
+    }
+}
+
 ManageSys::~ManageSys()
 {
     for(auto& book : books) {

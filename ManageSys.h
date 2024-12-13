@@ -5,6 +5,8 @@
 #include <vector>
 #include <unordered_map>
 #include <algorithm>
+#include <iomanip>
+#include <sstream>
 #include "Book.h"
 #include "Customer.h"
 #include "Author.h"
