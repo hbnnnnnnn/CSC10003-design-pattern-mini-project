@@ -6,6 +6,7 @@
 #include <unordered_map>
 #include <algorithm>
 #include <iomanip>
+#include <utility>
 #include <sstream>
 #include <cstdlib>
 #include <ctime>
@@ -93,6 +94,7 @@ public:
     ~ManageSys();
 
     void updateStock(string bookId, int quantity);
-    Order* createNewOrder(float amount, vector<Book*> productList, Customer* customer);
+    Order* createNewOrder(float amount, vector<pair<Book*, int>> productList, Customer* customer);
     void addOrder(Order* order);
+    void displayOrderDetails(const string& orderID)
 };

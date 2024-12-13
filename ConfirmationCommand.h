@@ -1,6 +1,20 @@
 #include "ManageSys.h"
 #include "Command.h"
 
+vector<pair<Book*, int>> convertCartToBookCount(const vector<Book*>& cart) {
+    unordered_map<Book*, int> bookCountMap;
+    for (auto book : cart) {
+        bookCountMap[book]++;
+    }
+
+    vector<pair<Book*, int>> bookCountVector;
+    for (const auto& entry : bookCountMap) {
+        bookCountVector.push_back(entry);
+    }
+
+    return bookCountVector;
+}
+
 class ConfirmationCommand : public Command {
 private:
     ManageSys* manager;      // Receiver
@@ -34,7 +48,8 @@ public:
             cin >> choice;
 
             if (choice == 'y') {
-                lastOrder = manager->createNewOrder(totalAmount, cart, manager->getCurrentUser()->getCustomer());
+                vector<pair<Book*, int>> bookCountVector = convertCartToBookCount(cart);
+                lastOrder = manager->createNewOrder(totalAmount, bookCountVector, manager->getCurrentUser()->getCustomer());
                 manager->addOrder(lastOrder);
                 cout << "Confirmation successful. Order id: " << lastOrder->getOrderID() << endl;
                 cart.clear();

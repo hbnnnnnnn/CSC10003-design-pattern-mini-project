@@ -149,14 +149,14 @@ void ManageSys::viewOrders() {
 void ManageSys::editOrder(string orderId, OrderStatus status) {
     Order* order = getOrderById(orderId);
     if(order) {
-        order->setOrderStatus(status);
+        order->setOrderStatus({status});
     }
 }
 
 void ManageSys::cancelOrder(string orderId) {
     Order* order = getOrderById(orderId);
     if (order) {
-        order->setOrderStatus(OrderStatus::Cancelled);
+        order->setOrderStatus({OrderStatus::Cancelled});
         cout << "Order cancelled." << endl;
     } else {
         cout << "Order not found." << endl;
@@ -298,12 +298,102 @@ string randomOrderId() {
     return orderId;
 }
 
-Order* createNewOrder(float amount, vector<Book*> productList, Customer* customer) {
+string getRandomOrderDate(int startYear, int endYear) {
+    // Seed the random number generator
+    srand(time(0));
+
+    // Generate random year, month, and day
+    int year = startYear + rand() % (endYear - startYear + 1);
+    int month = 1 + rand() % 12;
+
+    // Determine the number of days in the selected month
+    int daysInMonth = 31;
+    if (month == 2) {
+        // Check for leap year
+        if ((year % 4 == 0 && year % 100 != 0) || (year % 400 == 0)) {
+            daysInMonth = 29;
+        } else {
+            daysInMonth = 28;
+        }
+    } else if (month == 4 || month == 6 || month == 9 || month == 11) {
+        daysInMonth = 30;
+    }
+
+    int day = 1 + rand() % daysInMonth;
+
+    // Format the date as YYYY-MM-DD
+    ostringstream oss;
+    oss << year << "-" << setw(2) << setfill('0') << month << "-" << setw(2) << setfill('0') << day;
+
+    return oss.str();
+}
+
+Order* ManageSys::createNewOrder(float amount, vector<pair<Book*, int>> productList, Customer* customer) {
     string orderId = randomOrderId();
     time_t now = time(0);
-    string orderDate = ctime(&now);
+    string orderDate = getRandomOrderDate(2023, 2024);
     OrderStatus status = OrderStatus::Placed;
-    Order* order = new Order(orderId, orderDate, amount, status, productList, customer);
+    Order* order = new Order(orderId, orderDate, amount, {OrderStatus::Placed}, productList, customer);
     return order;
 }
+
+string getStatusAsString(OrderStatus status) {
+    switch (status) {
+        case OrderStatus::Placed: return "Da dat";
+        case OrderStatus::Confirmed: return "Da xac nhan";
+        case OrderStatus::Paid: return "Da thanh toan";
+        case OrderStatus::Shipping: return "Dang giao";
+        case OrderStatus::COD: return "COD";
+        case OrderStatus::Pending: return "Dang xu ly";
+        case OrderStatus::Delivered: return "Da giao";
+        case OrderStatus::Cancelled: return "Da huy";
+        default: return "Unknown";
+    }
+}
+
+void ManageSys::displayOrderDetails(const string& orderID) {
+    for (const auto& order : orders) {
+        if (order->getOrderID() == orderID) {
+            cout << "> Chi tiet don hang " << orderID << ":" << endl;
+            cout << "> Ngay dat: " << order->getOrderDate() << endl;
+
+            // Display products
+            cout << "> Danh sach san pham:" << endl;
+            const int idWidth = 10, nameWidth = 30, qtyWidth = 10, priceWidth = 10, totalWidth = 12;
+            cout << "| " << left << setw(idWidth) << "Ma sach"
+                 << "| " << setw(nameWidth) << "Ten sach"
+                 << "| " << setw(qtyWidth) << "So luong"
+                 << "| " << setw(priceWidth) << "Don gia"
+                 << "| " << setw(totalWidth) << "Thanh tien"
+                 << " |" << endl;
+
+            cout << "|-" << setfill('-') << setw(idWidth) << ""
+                 << "|-" << setw(nameWidth) << ""
+                 << "|-" << setw(qtyWidth) << ""
+                 << "|-" << setw(priceWidth) << ""
+                 << "|-" << setw(totalWidth) << ""
+                 << "-|" << setfill(' ') << endl;
+
+            for (const auto& product : order->getProductList()) {
+                Book* book = product.first;
+                int qty = product.second;
+                double total = book->getPrice() * qty;
+
+                cout << "| " << left << setw(idWidth) << book->getId()
+                     << "| " << setw(nameWidth) << book->getName()
+                     << "| " << setw(qtyWidth) << qty
+                     << "| " << setw(priceWidth) << fixed << setprecision(0) << book->getPrice()
+                     << "| " << setw(totalWidth) << total
+                     << " |" << endl;
+            }
+
+            // Display total and status
+            cout << "> Tong tien: " << fixed << setprecision(0) << order->getTotalAmount() << endl;
+            cout << "> Trang thai: " << getStatusAsString(order->getStatus().back()) << endl;
+            return;
+        }
+    }
+    cout << "Order not found!" << endl;
+}
+
 

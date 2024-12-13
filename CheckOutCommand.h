@@ -21,8 +21,9 @@ public:
             }
 
             cout << "Order " << order->getOrderID() << " details:" << endl;
-
-            manager->printBooks(order->getProductList());
+            cout << "Order Date: " << order->getOrderDate() << endl;
+            cout << "List of products: " << endl;
+            order->display();
             cout << "Total: " << order->getTotalAmount() << endl;
             order->displayStatus();
 

@@ -18,7 +18,7 @@ void printHelp() {
     cout << i++ << ". System - System management." << endl;
     cout << i++ << ". Search - Search for books." << endl;
     cout << i++ << ". View <BookID> - View detail of a book <BookID>." << endl;
-    cout << i++ << ". Add <BookID> - Add a book to cart." << endl;
+    cout << i++ << ". Add <BookID, amount> - Add <amount> of <BookID> to cart." << endl;
     cout << i++ << ". Confirmation - review order information and confirm." << endl;
     cout << i++ << ". Check out - Select a payment method and complete the checkout process." << endl;
     cout << i++ << ". Help - Show this help message." << endl;
@@ -204,9 +204,15 @@ int main() {
             if (manager->getCurrentUser() == nullptr) {
                 cout << "You must log in first." << endl;
             } else if (manager->getCurrentUser()->getType() == "customer") {
-                string bookId = command.substr(4);
-                Command* addToCart = new AddToCartCommand(manager, bookId, cart);
-                invoker.executeCommand(addToCart);
+                size_t pos = command.find(",");
+                if (pos != string::npos) {
+                    string bookId = command.substr(4, pos - 4);
+                    int amount = stoi(command.substr(pos + 1));
+                    Command* addToCart = new AddToCartCommand(manager, bookId, amount, cart);
+                    invoker.executeCommand(addToCart);
+                } else {
+                    cout << "Invalid command format. Use: Add <BookID, amount>" << endl;
+                }
             }
         }
 
