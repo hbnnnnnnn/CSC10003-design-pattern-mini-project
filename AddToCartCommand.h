@@ -1,5 +1,8 @@
 #pragma once
+
 #include "ManageSys.h"
+#include "Book.h"
+#include "User.h"
 #include "Command.h"
 
 class AddToCartCommand : public Command {

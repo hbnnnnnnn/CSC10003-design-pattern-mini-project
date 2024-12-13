@@ -3,22 +3,23 @@
 #include "Order.h"
 #include <iostream>
 #include <iomanip>
+#include "Command.h"
 
 using namespace std;
 
-string getStatusAsString(OrderStatus status) {
-    switch (status) {
-        case OrderStatus::Placed: return "Da dat";
-        case OrderStatus::Confirmed: return "Da xac nhan";
-        case OrderStatus::Paid: return "Da thanh toan";
-        case OrderStatus::Shipping: return "Dang giao";
-        case OrderStatus::COD: return "COD";
-        case OrderStatus::Pending: return "Dang xu ly";
-        case OrderStatus::Delivered: return "Da giao";
-        case OrderStatus::Cancelled: return "Da huy";
-        default: return "Unknown";
-    }
-}
+//string getStatusAsString(OrderStatus status) {
+//    switch (status) {
+//        case OrderStatus::Placed: return "Placed";
+//        case OrderStatus::Confirmed: return "Confirmed";
+//        case OrderStatus::Paid: return "Paid";
+//        case OrderStatus::Shipping: return "Shipping";
+//        case OrderStatus::COD: return "COD";
+//        case OrderStatus::Pending: return "Pending";
+//        case OrderStatus::Delivered: return "Delivered";
+//        case OrderStatus::Cancelled: return "Cancelled";
+//        default: return "Unknown";
+//    }
+//}
 
 class ViewAllOrdersCommand : public Command {
 private:

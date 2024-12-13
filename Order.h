@@ -33,7 +33,7 @@ private:
 public:
     Order(const string& id, const string& date, float amount, vector<OrderStatus> stat, vector<pair<Book*, int>>& products, Customer* cust)
         : orderID(id), orderDate(date), totalAmount(amount), status(stat), productList(products), customer(cust), paymentStrategy(nullptr) {}
-   
+
     Order(const Order& order);
     Order* clone() const;
 
@@ -48,7 +48,7 @@ public:
     void setOrderStatus(vector<OrderStatus> stat) { status = stat; }
     void setPaymentStrategy(PaymentStrategy* strategy) { paymentStrategy = strategy; }
     void display();
-   // void displayStatus();
+    void displayStatus();
     void displaySummary();
     ~Order();
 };

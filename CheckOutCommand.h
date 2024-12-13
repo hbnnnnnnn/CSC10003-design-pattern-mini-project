@@ -1,6 +1,11 @@
 #pragma once
 #include "ManageSys.h"
 #include "Command.h"
+#include "PaymentStrategy.h"
+#include "EWallet.h"
+#include "BankTransfer.h"
+#include "CreditCard.h"
+#include "COD.h"
 
 class CheckOutCommand : public Command {
 private:
@@ -78,7 +83,7 @@ public:
             cout << "You must log in as a customer first." << endl;
         }
 
-        
+
     }
 
     void undo() override {

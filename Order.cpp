@@ -2,6 +2,20 @@
 #include <iomanip>
 #include <iostream>
 
+string getStatusAsString(OrderStatus status) {
+    switch (status) {
+        case OrderStatus::Placed: return "Placed";
+        case OrderStatus::Confirmed: return "Confirmed";
+        case OrderStatus::Paid: return "Paid";
+        case OrderStatus::Shipping: return "Shipping";
+        case OrderStatus::COD: return "COD";
+        case OrderStatus::Pending: return "Pending";
+        case OrderStatus::Delivered: return "Delivered";
+        case OrderStatus::Cancelled: return "Cancelled";
+        default: return "Unknown";
+    }
+}
+
 Order::Order(const Order& order) {
     orderID = order.orderID;
     orderDate = order.orderDate;
@@ -40,52 +54,40 @@ void Order::display() {
 
 
 
-// void Order::displayStatus() {
-//     cout << "Status: ";
-//     for (const auto& stat : status) {
-//         switch (stat) {
-//             case OrderStatus::Placed:
-//                 cout << "Placed ";
-//                 break;
-//             case OrderStatus::Confirmed:
-//                 cout << "Confirmed ";
-//                 break;
-//             case OrderStatus::Paid:
-//                 cout << "Paid ";
-//                 break;
-//             case OrderStatus::Shipping:
-//                 cout << "Shipping ";
-//                 break;
-//             case OrderStatus::COD:
-//                 cout << "COD ";
-//                 break;
-//             case OrderStatus::Pending:
-//                 cout << "Pending ";
-//                 break;
-//             case OrderStatus::Delivered:
-//                 cout << "Delivered ";
-//                 break;
-//             case OrderStatus::Cancelled:
-//                 cout << "Cancelled ";
-//                 break;
-//         }
-//     }
-//     cout << endl;
-// }
+ void Order::displayStatus() {
+     cout << "Status: ";
+     for (const auto& stat : status) {
+         switch (stat) {
+             case OrderStatus::Placed:
+                 cout << "Placed ";
+                 break;
+             case OrderStatus::Confirmed:
+                 cout << "Confirmed ";
+                 break;
+             case OrderStatus::Paid:
+                 cout << "Paid ";
+                 break;
+             case OrderStatus::Shipping:
+                 cout << "Shipping ";
+                 break;
+             case OrderStatus::COD:
+                 cout << "COD ";
+                 break;
+             case OrderStatus::Pending:
+                 cout << "Pending ";
+                 break;
+             case OrderStatus::Delivered:
+                 cout << "Delivered ";
+                 break;
+             case OrderStatus::Cancelled:
+                 cout << "Cancelled ";
+                 break;
+         }
+     }
+     cout << endl;
+ }
 
-string getStatusAsString(OrderStatus status) {
-    switch (status) {
-        case OrderStatus::Placed: return "Da dat";
-        case OrderStatus::Confirmed: return "Da xac nhan";
-        case OrderStatus::Paid: return "Da thanh toan";
-        case OrderStatus::Shipping: return "Dang giao";
-        case OrderStatus::COD: return "COD";
-        case OrderStatus::Pending: return "Dang xu ly";
-        case OrderStatus::Delivered: return "Da giao";
-        case OrderStatus::Cancelled: return "Da huy";
-        default: return "Unknown";
-    }
-}
+
 
 void Order::displaySummary() {
     cout << "| " << setw(7) << orderID
