@@ -2,6 +2,22 @@
 #include <iomanip>
 #include <iostream>
 
+Order::Order(const Order& order) {
+    orderID = order.orderID;
+    orderDate = order.orderDate;
+    totalAmount = order.totalAmount;
+    status = order.status;
+    for (const auto& product : order.productList) {
+        productList.push_back(make_pair(new Book(*product.first), product.second));
+    }
+    customer = new Customer(*order.customer);
+    paymentStrategy = order.paymentStrategy ? order.paymentStrategy->clone() : nullptr;
+}
+
+Order* Order::clone() const {
+    return new Order(*this);
+}
+
 void Order::display() {
     cout << "\nOrder ID: " << orderID << endl;
     cout << "Order Date: " << orderDate << endl;

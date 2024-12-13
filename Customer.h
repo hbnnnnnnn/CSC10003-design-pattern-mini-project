@@ -21,35 +21,17 @@ public:
     Customer() = default;
     Customer(const string& id, const string& name, const string& phone, const string& email, const string& address)
         : id(id), name(name), phoneNumber(phone), email(email), shippingAddress(address) {}
-    Customer(const Customer& customer) {
-        id = customer.id;
-        name = customer.name;
-        phoneNumber = customer.phoneNumber;
-        email = customer.email;
-        shippingAddress = customer.shippingAddress;
-        for (const auto& order : customer.orderHistory) {
-            orderHistory.push_back(order->clone());
-        }
-    }
-    CustomerMemento* save() const {
-        return new CustomerMemento(name, phoneNumber, email, shippingAddress);
-    }
+    Customer(const Customer& customer);
+    CustomerMemento* save() const;
 
-    void restore(CustomerMemento* memento) {
-        name = memento->getName();
-        phoneNumber = memento->getPhoneNumber();
-        email = memento->getEmail();
-        shippingAddress = memento->getShippingAddress();
-    }
+    void restore(CustomerMemento* memento);
 
     string getid() const { return id; }
     string getName() const { return name; }
     string getPhoneNumber() const { return phoneNumber; }
     string getEmail() const { return email; }
     string getShippingAddress() const { return shippingAddress; }
-    const vector<Order*>& getOrderHistory() const {
-        return orderHistory;
-    }
+    const vector<Order*>& getOrderHistory() const;
 
     void setName(const string& newName) { name = newName; }
     void setPhoneNumber(const string& newPhoneNumber) { phoneNumber = newPhoneNumber; }

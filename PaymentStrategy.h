@@ -1,3 +1,5 @@
+#pragma once
+
 class PaymentStrategy {
 public:
     PaymentStrategy() = default;

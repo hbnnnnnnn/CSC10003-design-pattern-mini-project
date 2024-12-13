@@ -1,3 +1,4 @@
+#pragma once
 #include <stack>
 #include "Command.h"
 #include <iostream>

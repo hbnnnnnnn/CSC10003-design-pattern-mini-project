@@ -1,3 +1,4 @@
+#pragma once
 #include "ManageSys.h"
 #include "Command.h"
 
