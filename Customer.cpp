@@ -1,4 +1,5 @@
 #include "Customer.h"
+#include "Order.h"
 
  void Customer::display() {
         cout << "Customer Name: " << name << endl;
@@ -17,4 +18,19 @@
         getline(cin, shippingAddress);
         cout << "Enter Email: ";
         cin >> email;
+  }
+
+  Order* Customer::getOrderById(const string& orderId) {
+        for(auto& order : orderHistory) {
+            if(order->getOrderID() == orderId) {
+                return order;
+            }
+        }
+        return nullptr;
+  }
+
+  Customer::~Customer() {
+    for(auto& order : orderHistory) {
+        delete order;
+    }
   }

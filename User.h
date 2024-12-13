@@ -27,19 +27,23 @@ public:
         return "";
     }
 
+    string getUsername() const {
+        return username;
+    }
+
+    string getPassword() const {
+        return password;
+    }
+
+    void setPassword(const string& newPassword) {
+        password = newPassword;
+    }
+
     virtual string getType() const = 0;
-    virtual ~User() {}
 
     void setState(UserState* newState) {
         state = newState;
     }
-
-    virtual void viewOrders() {
-        state->viewOrders();
-    }
-
-    virtual void addBook(const string& title, const string& genre, string year, const string& publisher, double price, string stock, const vector<string>& authors) {}
-    virtual void deleteBook(string bookId) {}
 
     virtual ~User() {
         delete state;

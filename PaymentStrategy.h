@@ -5,4 +5,5 @@ public:
     virtual void input() = 0;
     virtual bool pay(float amount) = 0;
     virtual string getPaymentMethod() = 0;
+    virtual PaymentStrategy* clone() const = 0;
 };

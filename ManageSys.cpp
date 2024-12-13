@@ -21,7 +21,7 @@ bool ManageSys::login(const string& username, const string& password, const stri
             if (it != normalUserCredentials.end() && it->second == password) {
                 cout << "Customer user login successful!" << endl;
                 Customer* customer = new Customer;
-                customer->input();
+                //customer->input();
                 currentUser = new NormalUser(username, password, customer);  
                 return true;
             }
@@ -394,6 +394,24 @@ void ManageSys::displayOrderDetails(const string& orderID) {
         }
     }
     cout << "Order not found!" << endl;
+}
+
+void ManageSys::updatePassword(const string& username, const string& newPassword, const string& userType) {
+    if (userType == "customer") {
+        if (normalUserCredentials.find(username) != normalUserCredentials.end()) {
+            normalUserCredentials[username] = newPassword;
+            cout << "Password updated successfully!" << endl;
+        } else {
+            cout << "User not found!" << endl;
+        }
+    } else if (userType == "admin") {
+        if (adminCredentials.find(username) != adminCredentials.end()) {
+            adminCredentials[username] = newPassword;
+            cout << "Password updated successfully!" << endl;
+        } else {
+            cout << "Admin user not found!" << endl;
+        }
+    }
 }
 
 

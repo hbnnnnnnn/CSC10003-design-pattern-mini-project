@@ -7,6 +7,7 @@ using namespace std;
 class COD : public PaymentStrategy {
 public:
     COD() = default;
+    COD(const COD& cod) = default;
     void input() override {
         cout << "No input required for COD." << endl;
     }
@@ -17,5 +18,8 @@ public:
     }
     string getPaymentMethod() override {
         return "COD";
+    }
+    PaymentStrategy* clone() const override {
+        return new COD(*this);
     }
 };

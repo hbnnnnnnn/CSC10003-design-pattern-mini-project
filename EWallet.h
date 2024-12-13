@@ -10,14 +10,15 @@ private:
 
 public:
     EWallet() = default;
+    EWallet(const EWallet& eWallet) : walletName(eWallet.walletName) {}
     EWallet(const string& walletName) : walletName(walletName) {}
 
     void input() override {
-        cout << "Choose an E-Wallet:" << endl; 
-        cout << "1. Zalopay" << endl;
-        cout << "2. Momo" << endl;
-        cout << "3. ShopeePay" << endl;
-        cout << "Enter your choice (1-3): ";
+        cout << "> Choose an E-Wallet:" << endl; 
+        cout << "> 1. Zalopay" << endl;
+        cout << "> 2. Momo" << endl;
+        cout << "> 3. ShopeePay" << endl;
+        cout << "> Enter your choice (1-3): ";
         int choice;
         cin >> choice;
         switch (choice) {
@@ -45,4 +46,8 @@ public:
     string getPaymentMethod() override {
         return "E-Wallet";
     }
+    PaymentStrategy* clone() const override {
+        return new EWallet(*this);
+    }
 };
+

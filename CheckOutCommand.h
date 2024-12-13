@@ -27,12 +27,12 @@ public:
             cout << "Total: " << order->getTotalAmount() << endl;
             order->displayStatus();
 
-            cout << "Choose a payment method:" << endl;
-            cout << "1. Credit Card" << endl;
-            cout << "2. Bank Transfer" << endl;
-            cout << "3. E-Wallet" << endl;
-            cout << "4. COD" << endl;
-            cout << "Enter your choice (1-4): ";
+            cout << "> Choose a payment method:" << endl;
+            cout << "> 1. Credit Card" << endl;
+            cout << "> 2. Bank Transfer" << endl;
+            cout << "> 3. E-Wallet" << endl;
+            cout << "> 4. COD" << endl;
+            cout << "> Enter your choice (1-4): ";
             int choice;
             cin >> choice;
             switch (choice) {
@@ -60,11 +60,13 @@ public:
             if(paid){
                 order->setOrderStatus({OrderStatus::Paid, OrderStatus::Shipping});
                 cout << "Payment successful. Order is now being processed for delivery." << endl;
+                cout << "Please check your email for order details." << endl;
             }
             else{
                 if(paymentMethod->getPaymentMethod() == "COD"){
                     order->setOrderStatus({OrderStatus::Confirmed, OrderStatus::COD});
                     cout << "Order confirmed for COD. Amount will be paid upon delivery." << endl;
+                    cout << "Please check your email for order details." << endl;
                 }
                 else{
                 order->setOrderStatus({OrderStatus::Confirmed, OrderStatus::Pending});

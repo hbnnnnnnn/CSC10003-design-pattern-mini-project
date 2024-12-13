@@ -97,4 +97,6 @@ public:
     Order* createNewOrder(float amount, vector<pair<Book*, int>> productList, Customer* customer);
     void addOrder(Order* order);
     void displayOrderDetails(const string& orderID);
+    void manageOrders();
+    void updatePassword(const string& username, const string& password, const string& userType);
 };

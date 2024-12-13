@@ -33,6 +33,22 @@ private:
 public:
     Order(const string& id, const string& date, float amount, vector<OrderStatus> stat, vector<pair<Book*, int>>& products, Customer* cust)
         : orderID(id), orderDate(date), totalAmount(amount), status(stat), productList(products), customer(cust), paymentStrategy(nullptr) {}
+   
+    Order(const Order& order) {
+        orderID = order.orderID;
+        orderDate = order.orderDate;
+        totalAmount = order.totalAmount;
+        status = order.status;
+        for (const auto& product : order.productList) {
+            productList.push_back(make_pair(new Book(*product.first), product.second));
+        }
+        customer = new Customer(*order.customer);
+        paymentStrategy = order.paymentStrategy ? order.paymentStrategy->clone() : nullptr;
+    }
+    Order* clone() const {
+        return new Order(*this);
+    }
+
     string getOrderID() const { return orderID; }
     string getOrderDate() const { return orderDate; }
     double getTotalAmount() const { return totalAmount; }
@@ -44,6 +60,8 @@ public:
     void setOrderStatus(vector<OrderStatus> stat) { status = stat; }
     void setPaymentStrategy(PaymentStrategy* strategy) { paymentStrategy = strategy; }
     void display();
-    void displayStatus();
+   // void displayStatus();
+    void displaySummary();
+    ~Order();
 };
 

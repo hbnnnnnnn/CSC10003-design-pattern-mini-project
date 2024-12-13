@@ -12,6 +12,7 @@ private:
 
 public:
     CreditCard() = default;
+    CreditCard(const CreditCard& creditCard) = default;
     CreditCard(const string& cardNumber, const string& expiryDate, const string& cvv)
         : cardNumber(cardNumber), expiryDate(expiryDate), cvv(cvv) {}
 
@@ -31,5 +32,8 @@ public:
     }
     string getPaymentMethod() override {
         return "Credit Card";
+    }
+    PaymentStrategy* clone() const override {
+        return new CreditCard(*this);
     }
 };

@@ -3,77 +3,87 @@
 #include <iostream>
 
 void Order::display() {
-    // Define column widths
-    const int idWidth = 10;
-    const int titleWidth = 30;
-    const int quantityWidth = 10;
-    const int priceWidth = 10;
-    const int totalWidth = 12;
+    cout << "\nOrder ID: " << orderID << endl;
+    cout << "Order Date: " << orderDate << endl;
+    cout << "Total Amount: " << totalAmount << endl;
+    cout << "Status: " << getStatusAsString(status.back()) << endl;
+    cout << "Customer: " << customer->getName() << endl;
 
-    // Print header
-    cout << "> Gio hang cua ban:" << endl;
-    cout << "| " << left << setw(idWidth) << "Ma sach"
-         << "| " << setw(titleWidth) << "Ten sach"
-         << "| " << setw(quantityWidth) << "So luong"
-         << "| " << setw(priceWidth) << "Don gia"
-         << "| " << setw(totalWidth) << "Thanh tien"
-         << "|" << endl;
-
-    cout << "|-" << setfill('-') << setw(idWidth) << ""
-         << "|-" << setw(titleWidth) << ""
-         << "|-" << setw(quantityWidth) << ""
-         << "|-" << setw(priceWidth) << ""
-         << "|-" << setw(totalWidth) << ""
-         << "-|" << setfill(' ') << endl;
-
-    // Print product rows
+    // Display products
+    cout << "\nProducts in Order:" << endl;
+    cout << "| Book ID   | Title                | Quantity | Price  |" << endl;
+    cout << "|-----------|----------------------|----------|--------|" << endl;
     for (const auto& product : productList) {
-        Book* book = product.first;
-        int quantity = product.second;
-        double totalPrice = book->getPrice() * quantity;
-
-        cout << "| " << left << setw(idWidth) << book->getId()
-             << "| " << setw(titleWidth) << book->getName()
-             << "| " << setw(quantityWidth) << quantity
-             << "| " << setw(priceWidth) << fixed << setprecision(0) << book->getPrice()
-             << "| " << setw(totalWidth) << totalPrice
-             << "|" << endl;
+        cout << "| " << setw(10) << product.first->getId()
+             << " | " << setw(20) << product.first->getName()
+             << " | " << setw(8) << product.second
+             << " | " << setw(6) << fixed << setprecision(2) << product.first->getPrice()
+             << " |" << endl;
     }
-
-    // Print total amount
-    cout << "> Tong tien: " << fixed << setprecision(0) << totalAmount << endl;
 }
 
 
-void Order::displayStatus() {
-    cout << "Status: ";
-    for (const auto& stat : status) {
-        switch (stat) {
-            case OrderStatus::Placed:
-                cout << "Placed ";
-                break;
-            case OrderStatus::Confirmed:
-                cout << "Confirmed ";
-                break;
-            case OrderStatus::Paid:
-                cout << "Paid ";
-                break;
-            case OrderStatus::Shipping:
-                cout << "Shipping ";
-                break;
-            case OrderStatus::COD:
-                cout << "COD ";
-                break;
-            case OrderStatus::Pending:
-                cout << "Pending ";
-                break;
-            case OrderStatus::Delivered:
-                cout << "Delivered ";
-                break;
-            case OrderStatus::Cancelled:
-                cout << "Cancelled ";
-                break;
-        }
+
+// void Order::displayStatus() {
+//     cout << "Status: ";
+//     for (const auto& stat : status) {
+//         switch (stat) {
+//             case OrderStatus::Placed:
+//                 cout << "Placed ";
+//                 break;
+//             case OrderStatus::Confirmed:
+//                 cout << "Confirmed ";
+//                 break;
+//             case OrderStatus::Paid:
+//                 cout << "Paid ";
+//                 break;
+//             case OrderStatus::Shipping:
+//                 cout << "Shipping ";
+//                 break;
+//             case OrderStatus::COD:
+//                 cout << "COD ";
+//                 break;
+//             case OrderStatus::Pending:
+//                 cout << "Pending ";
+//                 break;
+//             case OrderStatus::Delivered:
+//                 cout << "Delivered ";
+//                 break;
+//             case OrderStatus::Cancelled:
+//                 cout << "Cancelled ";
+//                 break;
+//         }
+//     }
+//     cout << endl;
+// }
+
+string getStatusAsString(OrderStatus status) {
+    switch (status) {
+        case OrderStatus::Placed: return "Da dat";
+        case OrderStatus::Confirmed: return "Da xac nhan";
+        case OrderStatus::Paid: return "Da thanh toan";
+        case OrderStatus::Shipping: return "Dang giao";
+        case OrderStatus::COD: return "COD";
+        case OrderStatus::Pending: return "Dang xu ly";
+        case OrderStatus::Delivered: return "Da giao";
+        case OrderStatus::Cancelled: return "Da huy";
+        default: return "Unknown";
     }
-    cout << endl;
+}
+
+void Order::displaySummary() {
+    cout << "| " << setw(7) << orderID
+         << " | " << setw(10) << orderDate
+         << " | " << setw(10) << fixed << setprecision(2) << totalAmount
+         << " | " << setw(10) << getStatusAsString(status.back())
+         << " |" << endl;
+}
+
+Order::~Order() {
+    for (auto& product : productList) {
+        delete product.first;
+    }
+    if (paymentStrategy) {
+        delete paymentStrategy;
+    }
 }
