@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="clc06" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/clc06" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/clc06" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-fexceptions" />
+		</Compiler>
+		<Unit filename="AdminState.cpp" />
+		<Unit filename="AdminState.h" />
+		<Unit filename="AdminUser.cpp" />
+		<Unit filename="AdminUser.h" />
+		<Unit filename="Author.cpp" />
+		<Unit filename="Author.h" />
+		<Unit filename="Book.cpp" />
+		<Unit filename="Book.h" />
+		<Unit filename="Customer.h" />
+		<Unit filename="ManageSys.cpp" />
+		<Unit filename="ManageSys.h" />
+		<Unit filename="NormalUser.h" />
+		<Unit filename="NormalUserState.cpp" />
+		<Unit filename="NormalUserState.h" />
+		<Unit filename="Order.h" />
+		<Unit filename="User.h" />
+		<Unit filename="UserState.h" />
+		<Unit filename="main.cpp" />
+		<Extensions />
+	</Project>
+</CodeBlocks_project_file>

@@ -1,0 +1,94 @@
+# depslib dependency file v1.0
+1734092205 source:c:\clc06\normaluserstate.cpp
+	"NormalUserState.h"
+
+1734092195 c:\clc06\normaluserstate.h
+	"UserState.h"
+
+1734092189 c:\clc06\userstate.h
+	<string>
+	<vector>
+	"Order.h"
+
+1734084150 c:\clc06\order.h
+	<string>
+	<vector>
+	"Book.h"
+	"Customer.h"
+
+1734091705 c:\clc06\book.h
+	<iostream>
+	<string>
+	<vector>
+	<algorithm>
+
+1734077712 c:\clc06\customer.h
+	<string>
+
+1734091200 source:c:\clc06\adminuser.cpp
+	"ManageSys.h"
+	"AdminUser.h"
+	"AdminState.h"
+
+1734092142 c:\clc06\managesys.h
+	<iostream>
+	<string>
+	<vector>
+	<unordered_map>
+	<algorithm>
+	"Book.h"
+	"Customer.h"
+	"Author.h"
+	"Order.h"
+	"User.h"
+	"AdminUser.h"
+	"NormalUser.h"
+
+1734091309 c:\clc06\author.h
+	<iostream>
+	<string>
+	<vector>
+
+1734088729 c:\clc06\user.h
+	<string>
+	"UserState.h"
+
+1734091220 c:\clc06\adminuser.h
+	<iostream>
+	"User.h"
+
+1734088732 c:\clc06\normaluser.h
+	<iostream>
+	"User.h"
+	"NormalUserState.h"
+
+1734092177 c:\clc06\adminstate.h
+	"ManageSys.h"
+	"UserState.h"
+
+1734091809 source:c:\clc06\author.cpp
+	"Book.h"
+	"Author.h"
+
+1734091705 source:c:\clc06\book.cpp
+	"Author.h"
+	"Book.h"
+
+1734092151 source:c:\clc06\adminstate.cpp
+	"AdminState.h"
+	"Book.h"
+	"Author.h"
+	"Order.h"
+	<iostream>
+	<unordered_map>
+
+1734091333 source:c:\clc06\main.cpp
+	"ManageSys.h"
+
+1734092128 source:c:\clc06\managesys.cpp
+	"ManageSys.h"
+	"AdminUser.h"
+
+1734092261 source:c:\clc06\order.cpp
+	"Order.h"
+
