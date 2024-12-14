@@ -51,7 +51,12 @@ public:
     void display();
     void displayStatus();
     void displaySummary();
-    ~Order();
+    ~Order() {
+        if (paymentStrategy) {
+            delete paymentStrategy;
+            paymentStrategy = nullptr;
+        }
+    };
 };
 
 #endif // ORDER_H

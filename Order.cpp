@@ -88,12 +88,3 @@ void Order::displaySummary() {
          << " | " << setw(10) << getStatusAsString(status.back())
          << " |" << endl;
 }
-
-Order::~Order() {
-    for (auto& product : productList) {
-        delete product.first;
-    }
-    if (paymentStrategy) {
-        delete paymentStrategy;
-    }
-}
