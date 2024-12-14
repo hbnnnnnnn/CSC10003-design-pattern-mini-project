@@ -71,9 +71,14 @@ Book* ManageSys::getBookById(string bookId) {
 }
 
 void ManageSys::deleteBook(string bookId) {
-    books.erase(std::remove_if(books.begin(), books.end(), [bookId](Book* book) {
-        return book->getId() == bookId;
-    }), books.end());
+    for(auto& book : books) {
+        if(book->getId() == bookId) {
+            books.erase(std::remove(books.begin(), books.end(), book), books.end());
+            delete book;
+            cout << "Book deleted successfully!" << endl;
+            return;
+        }
+    }
 }
 
 bool ManageSys::signup(const string &username, const string &password, const string &userType)
@@ -105,12 +110,14 @@ void ManageSys::addBook(const string &title, const string &genre, int year, cons
 {
     Book* book = new Book(title, genre, year, publisher, price, stock);
     addBook(book);
+    cout << "Book added successfully!" << endl;
 }
 
 void ManageSys::editBook(string bookId, double price) {
     Book* book = getBookById(bookId);
     if(book) {
         book->setPrice(price);
+        cout << "Book price updated successfully!" << endl;
     }
 }
 
@@ -118,6 +125,7 @@ void ManageSys::editBook(string bookId, int stock) {
     Book* book = getBookById(bookId);
     if(book) {
         book->setStock(stock);
+        cout << "Book stock updated successfully!" << endl;
     }
 }
 
@@ -125,6 +133,7 @@ void ManageSys::editBook(string bookId, int stock) {
 void ManageSys::addAuthor(Author* author) {
     if(author) {
         authors.push_back(author);
+        cout << "Author added successfully!" << endl;
     }
 }
 
@@ -138,9 +147,14 @@ Author* ManageSys::getAuthorById(string authorId) {
 }
 
 void ManageSys::deleteAuthor(string authorId) {
-    authors.erase(std::remove_if(authors.begin(), authors.end(), [authorId](Author* author) {
-        return author->getId() == authorId;
-    }), authors.end());
+    for(auto& author : authors) {
+        if(author->getId() == authorId) {
+            authors.erase(std::remove(authors.begin(), authors.end(), author), authors.end());
+            delete author;
+            cout << "Author deleted successfully!" << endl;
+            return;
+        }
+    }
 }
 
 void ManageSys::addAuthor(const string& name) {
@@ -152,6 +166,7 @@ void ManageSys::editAuthor(string authorId, const string& name) {
     Author* author = getAuthorById(authorId);
     if(author) {
         author->setName(name);
+        cout << "Author name updated successfully!" << endl;
     }
 }
 
@@ -175,6 +190,7 @@ void ManageSys::editOrder(string orderId, OrderStatus status) {
     Order* order = getOrderById(orderId);
     if(order) {
         order->setOrderStatus({status});
+        cout << "Order status updated successfully!" << endl;
     }
 }
 

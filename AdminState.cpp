@@ -17,9 +17,9 @@ void AdminState::showMenu() {
         cout << "> Import management" << endl;
         cout << "> Quit" << endl;
         cout << "Enter a command (e.g., 'Book management' or 'Quit'): ";
-        
+
         string input;
-        cin.ignore();
+       // cin.ignore();
         getline(cin, input);
 
         if (input.rfind("Book management", 0) == 0) {
@@ -49,7 +49,7 @@ void AdminState::orderManagementMenu() {
         cout << "    > 3. Cancel order" << endl;
         cout << "    > 4. Back" << endl;
         cout << "Enter your choice (1-4): ";
-        
+
         int choice;
         cin >> choice;
 
@@ -90,7 +90,7 @@ void AdminState::bookManagementMenu() {
         cout << "    > 4. Delete book" << endl;
         cout << "    > 5. Back" << endl;
         cout << "Enter your choice (1-5): ";
-        
+
         int choice;
         cin >> choice;
 
