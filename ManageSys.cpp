@@ -46,6 +46,7 @@ ManageSys* ManageSys::getInstance() {
 
 void ManageSys::destroyInstance() {
     if (instance) {
+        cout << "ManaSys Instance destroyed" << endl;
         delete instance;
         instance = nullptr;
     }
@@ -239,7 +240,7 @@ void ManageSys::reportRevenue(const string& period) {
 }
 
 void ManageSys::reportBooksSold(const string& period) {
-    string booksSold = 0;
+    int booksSold = 0;
     for (Order* order : orders) {
         if (order->getOrderDate() == period) {
             booksSold += order->getProductList().size();

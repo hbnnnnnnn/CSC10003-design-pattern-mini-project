@@ -43,7 +43,7 @@ public:
     void input();  
     void addOrder(Order* order) { orderHistory.push_back(order); }
     Order* getOrderById(const string& orderId);
-    ~Customer() = default;
+    ~Customer(){};
 };
 
 #endif // CUSTOMER_H
