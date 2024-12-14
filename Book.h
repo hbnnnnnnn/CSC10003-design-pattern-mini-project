@@ -1,4 +1,6 @@
-#pragma once
+#ifndef BOOK_H
+#define BOOK_H
+
 #include <iostream>
 #include <string>
 #include <vector>
@@ -43,3 +45,5 @@ public:
     void setAuthors(vector<Author*> author);
     void updateStock(int quantity);
 };
+
+#endif // BOOK_H

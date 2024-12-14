@@ -1,4 +1,6 @@
-#pragma once
+#ifndef CUSTOMER_MEMENTO_H
+#define CUSTOMER_MEMENTO_H
+
 #include <string>
 
 using namespace std;
@@ -19,3 +21,5 @@ public:
     string getEmail() const { return email; }
     string getShippingAddress() const { return shippingAddress; }
 };
+
+#endif // CUSTOMER_MEMENTO_H

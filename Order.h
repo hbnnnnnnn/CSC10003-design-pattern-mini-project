@@ -1,4 +1,5 @@
-#pragma once
+#ifndef ORDER_H
+#define ORDER_H
 
 #include <string>
 #include <vector>
@@ -52,4 +53,6 @@ public:
     void displaySummary();
     ~Order();
 };
+
+#endif // ORDER_H
 

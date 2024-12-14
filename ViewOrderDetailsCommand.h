@@ -1,4 +1,7 @@
-#pragma once
+#ifndef VIEWORDERDETAILSCOMMAND_H
+#define VIEWORDERDETAILSCOMMAND_H
+
+#include "ManageSys.h"
 #include "Command.h"
 #include "Order.h"
 #include <iostream>
@@ -21,3 +24,5 @@ public:
     }
     void undo() override {}
 };
+
+#endif // VIEWORDERDETAILSCOMMAND_H

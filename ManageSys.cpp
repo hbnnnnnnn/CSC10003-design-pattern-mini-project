@@ -1,5 +1,30 @@
 #include "ManageSys.h"
 #include "AdminUser.h"
+#include "OrderUtils.h"
+
+ManageSys* ManageSys::instance = nullptr;
+
+ManageSys::ManageSys() : currentUser(nullptr) {
+    adminCredentials["admin1"] = "12345678";
+    adminCredentials["admin2"] = "27072005";
+
+    normalUserCredentials["user1"] = "21032005";
+    normalUserCredentials["user2"] = "08032005";
+}
+
+ManageSys* ManageSys::getInstance() {
+    if (!instance) {
+        instance = new ManageSys();
+    }
+    return instance;
+}
+
+void ManageSys::destroyInstance() {
+    if (instance) {
+        delete instance;
+        instance = nullptr;
+    }
+}
 
 void ManageSys::addBook(Book *book)
 {
@@ -22,7 +47,7 @@ bool ManageSys::login(const string& username, const string& password, const stri
                 cout << "Customer user login successful!" << endl;
                 Customer* customer = new Customer;
                 //customer->input();
-                currentUser = new NormalUser(username, password, customer);  
+                currentUser = new NormalUser(username, password, customer);
                 return true;
             }
         }
@@ -335,20 +360,6 @@ Order* ManageSys::createNewOrder(float amount, vector<pair<Book*, int>> productL
     OrderStatus status = OrderStatus::Placed;
     Order* order = new Order(orderId, orderDate, amount, {OrderStatus::Placed}, productList, customer);
     return order;
-}
-
-string getStatusAsString(OrderStatus status) {
-    switch (status) {
-        case OrderStatus::Placed: return "Da dat";
-        case OrderStatus::Confirmed: return "Da xac nhan";
-        case OrderStatus::Paid: return "Da thanh toan";
-        case OrderStatus::Shipping: return "Dang giao";
-        case OrderStatus::COD: return "COD";
-        case OrderStatus::Pending: return "Dang xu ly";
-        case OrderStatus::Delivered: return "Da giao";
-        case OrderStatus::Cancelled: return "Da huy";
-        default: return "Unknown";
-    }
 }
 
 void ManageSys::displayOrderDetails(const string& orderID) {

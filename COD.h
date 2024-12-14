@@ -1,4 +1,6 @@
-#pragma once
+#ifndef COD_H
+#define COD_H
+
 #include "PaymentStrategy.h"
 #include <iostream>
 
@@ -23,3 +25,5 @@ public:
         return new COD(*this);
     }
 };
+
+#endif // COD_H

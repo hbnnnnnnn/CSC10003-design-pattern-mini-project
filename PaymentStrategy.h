@@ -1,4 +1,8 @@
-#pragma once
+#ifndef PAYMENTSTRATEGY_H
+#define PAYMENTSTRATEGY_H
+
+#include <string>
+using namespace std;
 
 class PaymentStrategy {
 public:
@@ -9,3 +13,5 @@ public:
     virtual string getPaymentMethod() = 0;
     virtual PaymentStrategy* clone() const = 0;
 };
+
+#endif // PAYMENTSTRATEGY_H

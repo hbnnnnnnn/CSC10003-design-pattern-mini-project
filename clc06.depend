@@ -1,8 +1,8 @@
 # depslib dependency file v1.0
-1734092205 source:c:\clc06\normaluserstate.cpp
+1734121901 source:c:\clc06\normaluserstate.cpp
 	"NormalUserState.h"
 
-1734120939 c:\clc06\normaluserstate.h
+1734147534 c:\clc06\normaluserstate.h
 	"ManageSys.h"
 	"CommandInvoker.h"
 	"AddToCartCommand.h"
@@ -12,13 +12,14 @@
 	"CancelOrderCommand.h"
 	"ViewOrderDetailsCommand.h"
 	"ViewAllOrderCommand.h"
+	"Customer.h"
 
-1734120790 c:\clc06\userstate.h
+1734147534 c:\clc06\userstate.h
 	<string>
 	<vector>
 	"Order.h"
 
-1734120521 c:\clc06\order.h
+1734147534 c:\clc06\order.h
 	<string>
 	<vector>
 	"Book.h"
@@ -26,13 +27,13 @@
 	"PaymentStrategy.h"
 	<utility>
 
-1734096869 c:\clc06\book.h
+1734147534 c:\clc06\book.h
 	<iostream>
 	<string>
 	<vector>
 	<algorithm>
 
-1734119700 c:\clc06\customer.h
+1734147534 c:\clc06\customer.h
 	<string>
 	<iostream>
 	"CustomerMemento.h"
@@ -43,7 +44,7 @@
 	"AdminUser.h"
 	"AdminState.h"
 
-1734113374 c:\clc06\managesys.h
+1734153280 c:\clc06\managesys.h
 	<iostream>
 	<string>
 	<vector>
@@ -63,26 +64,26 @@
 	"NormalUser.h"
 	"BookSpecification.h"
 
-1734091309 c:\clc06\author.h
+1734147534 c:\clc06\author.h
 	<iostream>
 	<string>
 	<vector>
 
-1734118835 c:\clc06\user.h
+1734147534 c:\clc06\user.h
 	<string>
 	"UserState.h"
 
-1734098181 c:\clc06\adminuser.h
+1734152986 c:\clc06\adminuser.h
 	<iostream>
 	"User.h"
 
-1734120888 c:\clc06\normaluser.h
+1734151959 c:\clc06\normaluser.h
 	<iostream>
 	"NormalUserState.h"
 	"User.h"
 	"Customer.h"
 
-1734118575 c:\clc06\adminstate.h
+1734147534 c:\clc06\adminstate.h
 	"ManageSys.h"
 	"UserState.h"
 
@@ -94,7 +95,7 @@
 	"Author.h"
 	"Book.h"
 
-1734092151 source:c:\clc06\adminstate.cpp
+1734118583 source:c:\clc06\adminstate.cpp
 	"AdminState.h"
 	"Book.h"
 	"Author.h"
@@ -102,90 +103,130 @@
 	<iostream>
 	<unordered_map>
 
-1734091333 source:c:\clc06\main.cpp
+1734118449 source:c:\clc06\main.cpp
 	"ManageSys.h"
+	"AdminState.h"
+	"NormalUserState.h"
+	<iostream>
+	<string>
 
-1734092128 source:c:\clc06\managesys.cpp
+1734152808 source:c:\clc06\managesys.cpp
 	"ManageSys.h"
 	"AdminUser.h"
+	"OrderUtils.h"
 
-1734120434 source:c:\clc06\order.cpp
+1734152890 source:c:\clc06\order.cpp
 	"Order.h"
 	<iomanip>
 	<iostream>
+	"OrderUtils.h"
 
-1734094887 c:\clc06\bookspecification.h
+1734147534 c:\clc06\bookspecification.h
 	"Book.h"
 	<algorithm>
 	<string>
 	<vector>
 	"Author.h"
 
-1734119842 c:\clc06\customermemento.h
+1734147534 c:\clc06\customermemento.h
 	<string>
 
-1734119842 c:\clc06\paymentstrategy.h
+1734147534 c:\clc06\paymentstrategy.h
+	<string>
 
-1734119842 c:\clc06\commandinvoker.h
+1734147030 c:\clc06\commandinvoker.h
 	<stack>
 	"Command.h"
 	<iostream>
 
-1734119842 c:\clc06\command.h
+1734147689 c:\clc06\command.h
+	"Order.h"
 
-1734120296 c:\clc06\addtocartcommand.h
-	"ManageSys.h"
+1734152077 c:\clc06\addtocartcommand.h
+	"Command.h"
+	<vector>
+	<string>
+
+1734151494 c:\clc06\confirmationcommand.h
+	"Command.h"
 	"Book.h"
-	"User.h"
-	"Command.h"
 
-1734119842 c:\clc06\confirmationcommand.h
-	"ManageSys.h"
+1734151671 c:\clc06\checkoutcommand.h
 	"Command.h"
-
-1734120720 c:\clc06\checkoutcommand.h
-	"ManageSys.h"
-	"Command.h"
+	"Order.h"
 	"PaymentStrategy.h"
 	"EWallet.h"
 	"BankTransfer.h"
 	"CreditCard.h"
 	"COD.h"
 
-1734111064 c:\clc06\creditcard.h
+1734147534 c:\clc06\creditcard.h
 	"PaymentStrategy.h"
 	<iostream>
 
-1734111023 c:\clc06\banktransfer.h
+1734147534 c:\clc06\banktransfer.h
 	"PaymentStrategy.h"
 	<iostream>
 
-1734111079 c:\clc06\ewallet.h
+1734147534 c:\clc06\ewallet.h
 	"PaymentStrategy.h"
 	<iostream>
 
-1734111106 c:\clc06\cod.h
+1734147534 c:\clc06\cod.h
 	"PaymentStrategy.h"
 	<iostream>
 
-1734117141 c:\clc06\cancelordercommand.h
+1734152388 c:\clc06\cancelordercommand.h
 	"Command.h"
 	"Order.h"
 	<iostream>
 
-1734117100 c:\clc06\vieworderdetailscommand.h
+1734147534 c:\clc06\vieworderdetailscommand.h
+	"ManageSys.h"
 	"Command.h"
 	"Order.h"
 	<iostream>
 
-1734120614 c:\clc06\viewallordercommand.h
+1734151230 c:\clc06\viewallordercommand.h
 	"Command.h"
 	"Order.h"
 	<iostream>
 	<iomanip>
-	"Command.h"
 
 1734119599 source:c:\clc06\customer.cpp
 	"Customer.h"
 	"Order.h"
+
+1734152770 source:c:\clc06\viewallordercommand.cpp
+	"ViewAllOrderCommand.h"
+	"Customer.h"
+	"OrderUtils.h"
+
+1734146626 source:c:\clc06\addtocartcommand.cpp
+	"AddToCartCommand.h"
+	"ManageSys.h"
+	"Book.h"
+
+1734151622 source:c:\clc06\checkoutcommand.cpp
+	"CheckOutCommand.h"
+	"ManageSys.h"
+
+1734151443 source:c:\clc06\confirmationcommand.cpp
+	"ConfirmationCommand.h"
+	"ManageSys.h"
+
+1734152365 source:c:\clc06\normaluser.cpp
+	"NormalUser.h"
+	"NormalUserState.h"
+
+1734152826 source:c:\clc06\cancelordercommand.cpp
+	"CancelOrderCommand.h"
+	"OrderUtils.h"
+
+1734152742 c:\clc06\orderutils.h
+	<string>
+	"Order.h"
+
+1734152745 source:c:\clc06\orderutils.cpp
+	"OrderUtils.h"
 

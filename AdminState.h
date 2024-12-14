@@ -1,4 +1,5 @@
-#pragma once
+#ifndef ADMINSTATE_H
+#define ADMINSTATE_H
 
 #include "ManageSys.h"
 #include "UserState.h"
@@ -18,3 +19,5 @@ public:
     void reportManagementMenu();
     void importManagementMenu();
 };
+
+#endif // ADMINSTATE_H

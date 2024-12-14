@@ -1,4 +1,5 @@
-#pragma once
+#ifndef NORMALUSER_H
+#define NORMALUSER_H
 
 #include <iostream>
 #include "NormalUserState.h"
@@ -9,23 +10,12 @@ using namespace std;
 
 class NormalUser : public User {
 public:
-    NormalUser(const string& username, const string& password, Customer* customer) : User(username, password) {
-        state = new NormalUserState(customer);
-    }
-    NormalUser(const string& username, const string& password) : User(username, password) {
-        state = new NormalUserState;
-    }
-    virtual Customer* getCustomer() {
-        return state->getCustomer();
-    }
-
-    virtual string getCustomerName() {
-        return state->getCustomerName();
-    }
-    virtual string getType() const override {
-        return "customer";
-    }
-    ~NormalUser() override {
-        delete state;
-    }
+    NormalUser(const string& username, const string& password, Customer* customer);
+    NormalUser(const string& username, const string& password);
+    Customer* getCustomer() override;
+    string getType() const override;
+    string getCustomerName() override;
+    ~NormalUser() override;
 };
+
+#endif // NORMALUSER_H

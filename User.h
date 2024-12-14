@@ -1,4 +1,5 @@
-#pragma once
+#ifndef USER_H
+#define USER_H
 
 #include <string>
 #include "UserState.h"
@@ -49,3 +50,5 @@ public:
         delete state;
     }
 };
+
+#endif // USER_H

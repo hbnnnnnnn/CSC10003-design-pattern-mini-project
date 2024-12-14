@@ -1,4 +1,6 @@
-#pragma once
+#ifndef CREDITCARD_H
+#define CREDITCARD_H
+
 #include "PaymentStrategy.h"
 #include <iostream>
 
@@ -37,3 +39,5 @@ public:
         return new CreditCard(*this);
     }
 };
+
+#endif // CREDITCARD_H

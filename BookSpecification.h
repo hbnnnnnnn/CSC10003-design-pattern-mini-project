@@ -1,4 +1,6 @@
-#pragma once
+#ifndef BOOKSPECIFICATION_H
+#define BOOKSPECIFICATION_H
+
 #include "Book.h"
 #include <algorithm>
 #include <string>
@@ -63,3 +65,5 @@ public:
         return price >= minPrice && price <= maxPrice;
     }
 };
+
+#endif // BOOKSPECIFICATION_H

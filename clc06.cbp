@@ -32,6 +32,7 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="AddToCartCommand.cpp" />
 		<Unit filename="AddToCartCommand.h" />
 		<Unit filename="AdminState.cpp" />
 		<Unit filename="AdminState.h" />
@@ -44,10 +45,13 @@
 		<Unit filename="Book.h" />
 		<Unit filename="BookSpecification.h" />
 		<Unit filename="COD.h" />
+		<Unit filename="CancelOrderCommand.cpp" />
 		<Unit filename="CancelOrderCommand.h" />
+		<Unit filename="CheckOutCommand.cpp" />
 		<Unit filename="CheckOutCommand.h" />
 		<Unit filename="Command.h" />
 		<Unit filename="CommandInvoker.h" />
+		<Unit filename="ConfirmationCommand.cpp" />
 		<Unit filename="ConfirmationCommand.h" />
 		<Unit filename="CreditCard.h" />
 		<Unit filename="Customer.cpp" />
@@ -56,6 +60,7 @@
 		<Unit filename="EWallet.h" />
 		<Unit filename="ManageSys.cpp" />
 		<Unit filename="ManageSys.h" />
+		<Unit filename="NormalUser.cpp" />
 		<Unit filename="NormalUser.h" />
 		<Unit filename="NormalUserState.cpp" />
 		<Unit filename="NormalUserState.h" />
@@ -64,10 +69,12 @@
 		<Unit filename="PaymentStrategy.h" />
 		<Unit filename="User.h" />
 		<Unit filename="UserState.h" />
+		<Unit filename="ViewAllOrderCommand.cpp" />
 		<Unit filename="ViewAllOrderCommand.h" />
 		<Unit filename="ViewOrderDetailsCommand.h" />
 		<Unit filename="clc06.cbp" />
 		<Unit filename="clc06.depend" />
+		<Unit filename="clc06.layout" />
 		<Unit filename="main.cpp" />
 		<Extensions />
 	</Project>

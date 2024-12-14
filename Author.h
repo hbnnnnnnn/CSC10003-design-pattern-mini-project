@@ -1,4 +1,6 @@
-#pragma once
+#ifndef AUTHOR_H
+#define AUTHOR_H
+
 #include <iostream>
 #include <string>
 #include <vector>
@@ -24,3 +26,5 @@ public:
     void setName(string name);
     void setBooks(vector<Book*> books);
 };
+
+#endif // AUTHOR_H

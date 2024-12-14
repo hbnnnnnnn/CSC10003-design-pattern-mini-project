@@ -1,4 +1,5 @@
-#pragma once
+#ifndef CUSTOMER_H
+#define CUSTOMER_H
 
 #include <string>
 #include <iostream>
@@ -44,3 +45,5 @@ public:
     Order* getOrderById(const string& orderId);
     ~Customer();
 };
+
+#endif // CUSTOMER_H

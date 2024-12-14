@@ -1,4 +1,6 @@
-#pragma once
+#ifndef COMMAND_INVOKER_H
+#define COMMAND_INVOKER_H
+
 #include <stack>
 #include "Command.h"
 #include <iostream>
@@ -34,3 +36,5 @@ public:
         }
     }
 };
+
+#endif // COMMAND_INVOKER_H

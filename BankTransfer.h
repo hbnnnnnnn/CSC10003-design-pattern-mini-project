@@ -1,4 +1,6 @@
-#pragma once
+#ifndef BANKTRANSFER_H
+#define BANKTRANSFER_H
+
 #include "PaymentStrategy.h"
 #include <iostream>
 
@@ -24,3 +26,5 @@ public:
         return new BankTransfer(*this);
     }
 };
+
+#endif // BANKTRANSFER_H

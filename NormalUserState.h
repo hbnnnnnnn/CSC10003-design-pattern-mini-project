@@ -1,4 +1,5 @@
-#pragma once
+#ifndef NORMALUSERSTATE_H
+#define NORMALUSERSTATE_H
 
 #include "ManageSys.h"
 #include "CommandInvoker.h"
@@ -27,3 +28,5 @@ public:
     void accountManagementMenu(ManageSys* manager);
     void changePassword(ManageSys* manager, User* user);
 };
+
+#endif // NORMALUSERSTATE_H

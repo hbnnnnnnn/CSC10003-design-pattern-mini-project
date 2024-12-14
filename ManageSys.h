@@ -1,4 +1,5 @@
-#pragma once
+#ifndef MANAGESYS_H
+#define MANAGESYS_H
 
 #include <iostream>
 #include <string>
@@ -31,27 +32,11 @@ class ManageSys {
     static ManageSys* instance;
     unordered_map<string, string> adminCredentials;
     unordered_map<string, string> normalUserCredentials;
-    ManageSys() : currentUser(nullptr) {
-        adminCredentials["admin1"] = "12345678";
-        adminCredentials["admin2"] = "27072005";
-
-        normalUserCredentials["user1"] = "21032005";
-        normalUserCredentials["user2"] = "08032005";
-    }
+    ManageSys();
 public:
-    static ManageSys* getInstance() {
-        if (!instance) {
-            instance = new ManageSys();
-        }
-        return instance;
-    }
+    static ManageSys* getInstance();
 
-    static void destroyInstance() {
-        if (instance) {
-            delete instance;
-            instance = nullptr;
-        }
-    }
+    static void destroyInstance();
 
     bool login(const string& username, const string& password, const string& userType);
     void logout();
@@ -100,3 +85,5 @@ public:
     void manageOrders();
     void updatePassword(const string& username, const string& password, const string& userType);
 };
+
+#endif

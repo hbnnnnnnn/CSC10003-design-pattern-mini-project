@@ -1,12 +1,11 @@
-#pragma once
+#ifndef ADMINUSER_H
+#define ADMINUSER_H
 
 #include <iostream>
 #include "User.h"
 
 using namespace std;
 
-class AdminState;
-class ManageSys;
 class AdminUser : public User {
 public:
     AdminUser(const string& username, const string& password);
@@ -17,3 +16,5 @@ public:
         delete state;
     }
 };
+
+#endif // ADMINUSER_H

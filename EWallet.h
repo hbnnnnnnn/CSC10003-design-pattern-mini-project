@@ -1,4 +1,6 @@
-#pragma once
+#ifndef EWALLET_H
+#define EWALLET_H
+
 #include "PaymentStrategy.h"
 #include <iostream>
 
@@ -50,4 +52,6 @@ public:
         return new EWallet(*this);
     }
 };
+
+#endif // EWALLET_H
 
