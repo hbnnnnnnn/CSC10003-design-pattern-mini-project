@@ -52,9 +52,3 @@ Order* Customer::getOrderById(const string& orderId) {
 const vector<Order*>& Customer::getOrderHistory() const {
     return orderHistory;
 }
-
-Customer::~Customer() {
-for(auto& order : orderHistory) {
-    delete order;
-}
-}

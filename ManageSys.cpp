@@ -325,18 +325,30 @@ void ManageSys::printBooks(vector<Book*> books)
 
 ManageSys::~ManageSys()
 {
+    for (auto& customer : customers) {
+        delete customer;
+        customer = nullptr;
+    }
     for(auto& book : books) {
         delete book;
+        book = nullptr;
     }
     for(auto& author : authors) {
         delete author;
+        author = nullptr;
     }
     for(auto& order : orders) {
         delete order;
+        order = nullptr;
     }
     if(currentUser) {
         delete currentUser;
+        currentUser = nullptr;
     }
+    authors.clear();
+    books.clear();
+    customers.clear();
+    orders.clear();
 }
 
 void ManageSys::updateStock(string bookId, int quantity)

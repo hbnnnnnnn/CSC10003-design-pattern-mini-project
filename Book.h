@@ -45,6 +45,7 @@ public:
     void setStock(int stock);
     void setAuthors(vector<Author*> author);
     void updateStock(int quantity);
+    ~Book() = default;
 };
 
 #endif // BOOK_H

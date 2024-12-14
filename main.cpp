@@ -14,92 +14,95 @@ void printHelp() {
 }
 
 int main() {
-    ManageSys* manager = ManageSys::getInstance();
-    string command;
+    {
+        ManageSys* manager = ManageSys::getInstance();
+        string command;
 
-    cout << "Welcome to the Bookstore Management System!" << endl;
-    cout << "Type 'help' for a list of commands." << endl;
+        cout << "Welcome to the Bookstore Management System!" << endl;
+        cout << "Type 'help' for a list of commands." << endl;
 
-    while (true) {
-        cout << "\n> ";
-        getline(cin, command);
+        while (true) {
+            cout << "\n> ";
+            getline(cin, command);
 
-        if (command == "help") {
-            printHelp();
-        } else if (command == "Login") {
-            cout << "1. Admin" << endl;
-            cout << "2. Customer" << endl;
-            cout << "Enter user type (1-2): ";
-            int choice;
-            cin >> choice;
-            cin.ignore();
+            if (command == "help") {
+                printHelp();
+            }
+            else if (command == "Login") {
+                cout << "1. Admin" << endl;
+                cout << "2. Customer" << endl;
+                cout << "Enter user type (1-2): ";
+                int choice;
+                cin >> choice;
+                cin.ignore();
 
-            if (choice != 1 && choice != 2) {
-                cout << "Invalid choice. Please try again." << endl;
+                if (choice != 1 && choice != 2) {
+                    cout << "Invalid choice. Please try again." << endl;
+                    continue;
+                }
+
+                string userType = (choice == 1) ? "admin" : "customer";
+                string username, password;
+
+                cout << "Enter username: ";
+                getline(cin, username);
+
+                cout << "Enter password: ";
+                getline(cin, password);
+
+                if (!manager->login(username, password, userType)) {
+                    cout << "Login failed. Please try again." << endl;
+                    continue;
+                }
+
+                // Delegate to the logged-in user's state
+                User* currentUser = manager->getCurrentUser();
+
+                currentUser->showMenu();
+
+                // After the user logs out
+                manager->logout();
                 continue;
             }
+            else if (command == "Sign up") {
+                cout << "1. Admin" << endl;
+                cout << "2. Customer" << endl;
+                cout << "Enter user type (1-2): ";
+                int choice;
+                cin >> choice;
+                cin.ignore();
 
-            string userType = (choice == 1) ? "admin" : "customer";
-            string username, password;
+                if (choice != 1 && choice != 2) {
+                    cout << "Invalid choice. Please try again." << endl;
+                    continue;
+                }
 
-            cout << "Enter username: ";
-            getline(cin, username);
+                string userType = (choice == 1) ? "admin" : "customer";
+                string username, password;
 
-            cout << "Enter password: ";
-            getline(cin, password);
+                cout << "Enter username: ";
+                getline(cin, username);
 
-            if (!manager->login(username, password, userType)) {
-                cout << "Login failed. Please try again." << endl;
-                continue;
+                cout << "Enter password: ";
+                getline(cin, password);
+
+                if (!manager->signup(username, password, userType)) {
+                    cout << "Sign up failed. Username might already exist." << endl;
+                    continue;
+                }
+
+                cout << "Account created successfully. Please login to proceed." << endl;
             }
-
-            // Delegate to the logged-in user's state
-            User* currentUser = manager->getCurrentUser();
-
-            currentUser->showMenu();
-
-            // After the user logs out
-            manager->logout();
-            continue;
-        }
-        else if (command == "Sign up") {
-            cout << "1. Admin" << endl;
-            cout << "2. Customer" << endl;
-            cout << "Enter user type (1-2): ";
-            int choice;
-            cin >> choice;
-            cin.ignore();
-
-            if (choice != 1 && choice != 2) {
-                cout << "Invalid choice. Please try again." << endl;
-                continue;
+            else if (command == "Exit") {
+                cout << "Exiting the program. Goodbye!" << endl;
+                break;
             }
-
-            string userType = (choice == 1) ? "admin" : "customer";
-            string username, password;
-
-            cout << "Enter username: ";
-            getline(cin, username);
-
-            cout << "Enter password: ";
-            getline(cin, password);
-
-            if (!manager->signup(username, password, userType)) {
-                cout << "Sign up failed. Username might already exist." << endl;
-                continue;
+            else {
+                cout << "Invalid command. Please try again." << endl;
             }
+        }
 
-            cout << "Account created successfully. Please login to proceed." << endl;
-        }
-        else if (command == "Exit") {
-            cout << "Exiting the program. Goodbye!" << endl;
-            break;
-        }
-        else {
-            cout << "Invalid command. Please try again." << endl;
-        }
+        ManageSys::destroyInstance();
     }
-
-    ManageSys::destroyInstance();
     return 0;
 }
