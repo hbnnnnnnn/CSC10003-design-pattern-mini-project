@@ -13,11 +13,19 @@ ManageSys::ManageSys() : currentUser(nullptr) {
     authors.push_back(new Author("A001", "J.K. Rowling"));
     authors.push_back(new Author("A002", "George R.R. Martin"));
     authors.push_back(new Author("A003", "J.R.R. Tolkien"));
+    authors.push_back(new Author("A004", "Brandon Sanderson"));
+    authors.push_back(new Author("A005", "Neil Gaiman"));
+    authors.push_back(new Author("A006", "Patrick Rothfuss"));
 
     // Books
     books.push_back(new Book("B001", "Harry Potter", "Fantasy", 2000, "Bloomsbury", 39.9, 100, "A young wizard's journey at Hogwarts.", { authors[0] }));
     books.push_back(new Book("B002", "Game of Thrones", "Fantasy", 1996, "Bantam Books", 29.9, 50, "A tale of power, betrayal, and war in Westeros.", { authors[1] }));
     books.push_back(new Book("B003", "The Hobbit", "Fantasy", 1937, "George Allen & Unwin", 49.9, 80, "A hobbit's epic adventure to reclaim a treasure.", { authors[2] }));
+    books.push_back(new Book("B004", "Mistborn", "Fantasy", 2006, "Tor Books", 19.99, 150, "A world of ash and mist, where the oppressed rebel.", { authors[3] }));
+    books.push_back(new Book("B005", "American Gods", "Fantasy", 2001, "HarperCollins", 24.99, 120, "A battle between old and new gods in America.", { authors[4] }));
+    books.push_back(new Book("B006", "The Name of the Wind", "Fantasy", 2007, "DAW Books", 29.99, 90, "A tale of a legendary figure in a world of magic.", { authors[6] }));
+    books.push_back(new Book("B007", "The Stormlight Archive", "Fantasy", 2010, "Tor Books", 49.99, 200, "An epic saga of war, honor, and magic.", { authors[3], authors[4] }));
+    books.push_back(new Book("B008", "Neverwhere", "Urban Fantasy", 1996, "Hodder & Stoughton", 19.99, 75, "A journey through a hidden world beneath London.", { authors[5] }));
 
     // Customers and credentials
     Customer* cust1 = new Customer("C001", "John Doe", "123456789", "john@example.com", "123 Main St");
@@ -28,12 +36,15 @@ ManageSys::ManageSys() : currentUser(nullptr) {
     customerCredentials["user2"] = "08032005";
 
     // Orders
-    vector<pair<Book*, int>> orderProducts = { { books[0], 2 }, { books[1], 1 } };
-    Order* order1 = new Order("O001", "2024-12-10", 129.97, { OrderStatus::Placed }, orderProducts, cust1);
+    vector<pair<Book*, int>> orderProducts1 = { { books[0], 2 }, { books[1], 1 } };
+    Order* order1 = new Order("O001", "2024-12-10", 129.97, { OrderStatus::Placed }, orderProducts1, cust1);
     orders.push_back(order1);
     cust1->addOrder(order1);
 
-    cout << "ManageSys initialized successfully!" << endl;
+    vector<pair<Book*, int>> orderProducts2 = { { books[2], 1 }, { books[5], 1 } };
+    Order* order2 = new Order("O002", "2024-12-11", 59.99, { OrderStatus::Placed }, orderProducts2, cust2);
+    orders.push_back(order2);
+    cust2->addOrder(order2);
 }
 
 
@@ -56,6 +67,7 @@ void ManageSys::addBook(Book *book)
 {
     if(book) {
         books.push_back(book);
+        cout << "Book added successfully!" << endl;
     }
 }
 
@@ -259,18 +271,189 @@ void ManageSys::reportCustomerCount(const string& period) {
     cout << "Customer count for " << period << ": " << customerCount << endl;
 }
 
-// Importing data
-void ManageSys::importBooksFromFile(const string& filename) {
-    // Implementation for importing books from file
+vector<string> split(const string& str, char delimiter) {
+    vector<string> tokens;
+    string token;
+    istringstream tokenStream(str);
+    while (getline(tokenStream, token, delimiter)) {
+        tokens.push_back(token);
+    }
+    return tokens;
 }
 
+// Importing data
+void ManageSys::importBooksFromFile(const string& filename) {
+    ifstream file(filename);
+    string line;
+
+    if (!file.is_open()) {
+        cout << "Failed to open file: " << filename << endl;
+        return;
+    }
+
+    // Skip the header line
+    getline(file, line);
+
+    while (getline(file, line)) {
+        vector<string> fields = split(line, ',');
+        if(fields.size() < 9) {
+            cout << "Invalid book data: " << line << endl;
+            continue;
+        }
+        string bookId = fields[0];
+        string name = fields[1];
+        string genre = fields[2];
+        int year = stoi(fields[3]);
+        string publisher = fields[4];
+        double price = stod(fields[5]);
+        int stock = stoi(fields[6]);
+        string description = fields[7];
+
+        // Split authors string into author ids
+        vector<string> authorIds = split(fields[8], ',');
+        vector<Author*> authors;
+        for (const auto& authorId : authorIds) {
+            Author* author = getAuthorById(authorId);
+            if (author) {
+                authors.push_back(author);
+            } else {
+                cout << "Author ID not found: " << authorId << endl;
+            }
+        }
+
+        // Create a new Book and add to the list
+        Book* book = new Book(bookId, name, genre, year, publisher, price, stock, description, authors);
+        addBook(book);  // Assuming addBook() handles adding to the vector
+    }
+
+    file.close();
+}
+
+
 void ManageSys::importAuthorsFromFile(const string& filename) {
-    // Implementation for importing authors from file
+    ifstream file(filename);
+    string line;
+
+    if (!file.is_open()) {
+        cout << "Failed to open file: " << filename << endl;
+        return;
+    }
+
+    // Skip the header line
+    getline(file, line);
+
+    while (getline(file, line)) {
+        vector<string> fields = split(line, ',');
+        if(fields.size() < 3) {
+            cout << "Invalid author data: " << line << endl;
+            continue;
+        }
+        string authorId = fields[0];
+        string name = fields[1];
+
+        // Create a new Author and add to the list
+        Author* author = new Author(authorId, name);
+        addAuthor(author);  // Assuming addAuthor() handles adding to the vector
+
+        // Associate books with the author
+        vector<string> bookIds = split(fields[2], ',');
+        for (const auto& bookId : bookIds) {
+            Book* book = getBookById(bookId);
+            if (book) {
+                author->addBook(book);
+            } else {
+                cout << "Book ID not found: " << bookId << endl;
+            }
+        }
+    }
+
+    file.close();
 }
 
 void ManageSys::importOrdersFromFile(const string& filename) {
-    // Implementation for importing orders from file
+    ifstream file(filename);
+    string line;
+
+    if (!file.is_open()) {
+        cout << "Failed to open file: " << filename << endl;
+        return;
+    }
+
+    // Skip the header line
+    getline(file, line);
+
+    while (getline(file, line)) {
+        vector<string> fields = split(line, ',');
+
+        if (fields.size() < 6) {
+            cout << "Invalid order data: " << line << endl;
+            continue;
+        }
+
+        string orderId = fields[0];
+        string orderDate = fields[1];
+        float totalAmount = 0.0;
+        try {
+            totalAmount = stof(fields[2]);
+        } catch (const exception& e) {
+            cout << "Invalid totalAmount in order: " << line << endl;
+            continue;
+        }
+
+        vector<string> statusStrs = split(fields[3], '|');
+        vector<OrderStatus> status;
+        for (const auto& statusStr : statusStrs) {
+            if (statusStr == "Placed") status.push_back(OrderStatus::Placed);
+            else if (statusStr == "Confirmed") status.push_back(OrderStatus::Confirmed);
+            else if (statusStr == "Paid") status.push_back(OrderStatus::Paid);
+            else if (statusStr == "Shipping") status.push_back(OrderStatus::Shipping);
+            else if (statusStr == "Cancelled") status.push_back(OrderStatus::Cancelled);
+            else {
+                cout << "Unknown status: " << statusStr << " in order: " << line << endl;
+            }
+        }
+
+        vector<pair<Book*, int>> productList;
+        vector<string> products = split(fields[4], '|'); // Split products by '|'
+        for (const auto& product : products) {
+            vector<string> productDetails = split(product, ':'); // Split product details by ':'
+
+            if (productDetails.size() != 2) {
+                cout << "Invalid product format in order: " << line << endl;
+                cout << "Product field: " << product << endl;
+                continue;
+            }
+
+            Book* book = getBookById(productDetails[0]);
+            if (!book) {
+                cout << "Book ID not found: " << productDetails[0] << " in order: " << line << endl;
+                continue;
+            }
+
+            int quantity = 0;
+            try {
+                quantity = stoi(productDetails[1]);
+            } catch (const exception& e) {
+                cout << "Invalid quantity for book: " << productDetails[0] << " in order: " << line << endl;
+                continue;
+            }
+
+            productList.push_back({book, quantity});
+        }
+
+        if (customerData.find(fields[5]) == customerData.end()) {
+            cout << "Customer ID not found: " << fields[5] << " in order: " << line << endl;
+            continue;
+        }
+        Customer* customer = customerData[fields[5]];
+
+        Order* order = new Order(orderId, orderDate, totalAmount, status, productList, customer);
+        addOrder(order);
+    }
+
+    file.close();
 }
+
 
 vector<Book *> ManageSys::searchBooks(BookSpecification *spec)
 {
@@ -362,7 +545,11 @@ void ManageSys::updateStock(string bookId, int quantity)
 
 void ManageSys::addOrder(Order *order)
 {
-    orders.push_back(order);
+    if (order) {
+        orders.push_back(order);
+        cout << "Order added successfully!" << endl;
+    }
+
 }
 
 string randomOrderId() {

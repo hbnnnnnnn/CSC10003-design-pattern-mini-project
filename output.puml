@@ -1,0 +1,601 @@
+@startuml
+
+
+
+
+
+/' Objects '/
+
+class AddToCartCommand {
+	+AddToCartCommand(ManageSys* manager, string bookId, int amount, vector<Book*>& cart)
+	-lastAddedBook : Book*
+	-manager : ManageSys*
+	-amount : int
+	-bookId : string
+	-cart : vector<Book*>&
+	+execute() : void
+	+undo() : void
+}
+
+
+class AdminState {
+	+AdminState(ManageSys* manageSys)
+	-manageSys : ManageSys*
+	+authorManagementMenu() : void
+	+bookManagementMenu() : void
+	+importManagementMenu() : void
+	+orderManagementMenu() : void
+	+reportManagementMenu() : void
+	+showMenu() : void
+}
+
+
+class AdminUser {
+	+AdminUser(const string& username, const string& password)
+	+~AdminUser()
+	+getType() : string {query}
+}
+
+
+class Author {
+	+Author()
+	+Author(string name)
+	+Author(string id, string name)
+	+getId() : string
+	+getName() : string
+	-id : string
+	-name : string
+	-books : vector<Book*>
+	+getBooks() : vector<Book*>
+	+addBook(Book* book) : void
+	+display() : void
+	+removeBook(Book* book) : void
+	+setBooks(vector<Book*> books) : void
+	+setId(string id) : void
+	+setName(string name) : void
+}
+
+
+class BankTransfer {
+	+BankTransfer()
+	+BankTransfer(const BankTransfer& bankTransfer)
+	+clone() : PaymentStrategy* {query}
+	+pay(float amount) : bool
+	+getPaymentMethod() : string
+	+input() : void
+}
+
+
+class Book {
+	+Book()
+	+Book(string id, string name, string genre, int year, string publisher, float price, int stock, string description)
+	+Book(string id, string name, string genre, int year, string publisher, float price, int stock)
+	+Book(string name, string genre, int year, string publisher, float price, int stock)
+	+Book(string id, string name, string genre, int year, string publisher, float price, int stock, string description, vector<Author*> authors)
+	+~Book()
+	+getPrice() : float
+	-price : float
+	+getStock() : int
+	+getYear() : int
+	-stock : int
+	-year : int
+	-description : string
+	-genre : string
+	+getGenre() : string
+	+getId() : string
+	+getName() : string
+	+getPublisher() : string
+	-id : string
+	-name : string
+	-publisher : string
+	-authors : vector<Author*>
+	+getAuthors() : vector<Author*>
+	+addAuthor(Author* author) : void
+	+display() : void
+	+removeAuthor(Author* author) : void
+	+setAuthors(vector<Author*> author) : void
+	+setGenre(string genre) : void
+	+setId(string id) : void
+	+setName(string name) : void
+	+setPrice(float price) : void
+	+setPublisher(string publisher) : void
+	+setStock(int stock) : void
+	+setYear(int year) : void
+	+updateStock(int quantity) : void
+}
+
+
+class BookAuthorBookSpecification {
+	+BookAuthorBookSpecification(const string& author)
+	+isSatisfied(Book* item) : bool
+	-author : string
+}
+
+
+class BookGenreBookSpecification {
+	+BookGenreBookSpecification(const string& genre)
+	+isSatisfied(Book* item) : bool
+	-genre : string
+}
+
+
+class BookPriceRangeBookSpecification {
+	+BookPriceRangeBookSpecification(double minPrice, double maxPrice)
+	+isSatisfied(Book* item) : bool
+	-maxPrice : double
+	-minPrice : double
+}
+
+
+class BookPublisherBookSpecification {
+	+BookPublisherBookSpecification(const string& publisher)
+	+isSatisfied(Book* item) : bool
+	-publisher : string
+}
+
+
+abstract class BookSpecification {
+	+~BookSpecification()
+	+{abstract} isSatisfied(Book* item) : bool
+}
+
+
+class BookTitleBookSpecification {
+	+BookTitleBookSpecification(const string& title)
+	+isSatisfied(Book* item) : bool
+	-title : string
+}
+
+
+class COD {
+	+COD()
+	+COD(const COD& cod)
+	+clone() : PaymentStrategy* {query}
+	+pay(float amount) : bool
+	+getPaymentMethod() : string
+	+input() : void
+}
+
+
+class CancelOrderCommand {
+	+CancelOrderCommand(Order* order)
+	-order : Order*
+	+execute() : void
+	+undo() : void
+}
+
+
+class CheckOutCommand {
+	+CheckOutCommand(ManageSys* manager, Order* order)
+	-manager : ManageSys*
+	-order : Order*
+	-paymentMethod : PaymentStrategy*
+	+execute() : void
+	+undo() : void
+}
+
+
+abstract class Command {
+	+~Command()
+	+getLastOrder() : Order* {query}
+	+{abstract} execute() : void
+	+{abstract} undo() : void
+}
+
+
+class CommandInvoker {
+	+~CommandInvoker()
+	-commandHistory : stack<Command*>
+	+executeCommand(Command* command) : void
+	+undoLastCommand() : void
+}
+
+
+class ConfirmationCommand {
+	+ConfirmationCommand(ManageSys* manager, vector<Book*>& cart)
+	-manager : ManageSys*
+	+getLastOrder() : Order* {query}
+	-lastOrder : Order*
+	-totalAmount : float
+	-cart : vector<Book*>&
+	+execute() : void
+	+undo() : void
+}
+
+
+class CreditCard {
+	+CreditCard()
+	+CreditCard(const CreditCard& creditCard)
+	+CreditCard(const string& cardNumber, const string& expiryDate, const string& cvv)
+	+clone() : PaymentStrategy* {query}
+	+pay(float amount) : bool
+	-cardNumber : string
+	-cvv : string
+	-expiryDate : string
+	+getPaymentMethod() : string
+	+input() : void
+}
+
+
+class Customer {
+	+Customer()
+	+Customer(const string& id, const string& name, const string& phone, const string& email, const string& address)
+	+Customer(const Customer& customer)
+	+~Customer()
+	+save() : CustomerMemento* {query}
+	+getOrderById(const string& orderId) : Order*
+	-email : string
+	+getEmail() : string {query}
+	+getName() : string {query}
+	+getPhoneNumber() : string {query}
+	+getShippingAddress() : string {query}
+	+getid() : string {query}
+	-id : string
+	-name : string
+	-phoneNumber : string
+	-shippingAddress : string
+	-orderHistory : vector<Order*>
+	+getOrderHistory() : vector<Order*>& {query}
+	+addOrder(Order* order) : void
+	+display() : void
+	+input() : void
+	+restore(CustomerMemento* memento) : void
+	+setEmail(const string& newEmail) : void
+	+setName(const string& newName) : void
+	+setPhoneNumber(const string& newPhoneNumber) : void
+	+setShippingAddress(const string& newAddress) : void
+}
+
+
+class CustomerMemento {
+	+CustomerMemento(const string& name, const string& phone, const string& email, const string& address)
+	-email : string
+	+getEmail() : string {query}
+	+getName() : string {query}
+	+getPhoneNumber() : string {query}
+	+getShippingAddress() : string {query}
+	-name : string
+	-phoneNumber : string
+	-shippingAddress : string
+}
+
+
+class EWallet {
+	+EWallet()
+	+EWallet(const EWallet& eWallet)
+	+EWallet(const string& walletName)
+	+clone() : PaymentStrategy* {query}
+	+pay(float amount) : bool
+	+getPaymentMethod() : string
+	-walletName : string
+	+input() : void
+}
+
+
+class ManageSys {
+	-ManageSys()
+	+~ManageSys()
+	+getAuthorById(string authorId) : Author*
+	+getBookById(string bookId) : Book*
+	+{static} getInstance() : ManageSys*
+	+createNewOrder(float amount, vector<pair<Book*, int>> productList, Customer* customer) : Order*
+	+getOrderById(string orderId) : Order*
+	-currentUser : User*
+	+getCurrentUser() : User*
+	+login(const string& username, const string& password, const string& userType) : bool
+	+signup(const string& username, const string& password, const string& userType) : bool
+	-{static} instance : static ManageSys*
+	-customerData : unordered_map<string, Customer*>
+	-adminCredentials : unordered_map<string, string>
+	-customerCredentials : unordered_map<string, string>
+	-authors : vector<Author*>
+	-books : vector<Book*>
+	+searchBooks(BookSpecification* spec) : vector<Book*>
+	-customers : vector<Customer*>
+	-orders : vector<Order*>
+	+addAuthor(Author* author) : void
+	+addAuthor(const string& name) : void
+	+addBook(Book* book) : void
+	+addBook(const string& title, const string& genre, int year, const string& publisher, double price, int stock, const vector<string>& authors) : void
+	+addOrder(Order* order) : void
+	+cancelOrder(string orderId) : void
+	+deleteAuthor(string authorId) : void
+	+deleteBook(string bookId) : void
+	+{static} destroyInstance() : void
+	+displayOrderDetails(const string& orderID) : void
+	+editAuthor(string authorId, const string& name) : void
+	+editBook(string bookId, double price) : void
+	+editBook(string bookId, int stock) : void
+	+editOrder(string orderId, OrderStatus status) : void
+	+importAuthorsFromFile(const string& filename) : void
+	+importBooksFromFile(const string& filename) : void
+	+importOrdersFromFile(const string& filename) : void
+	+logout() : void
+	+printBooks(vector<Book*> books) : void
+	+reportBooksSold(const string& period) : void
+	+reportCustomerCount(const string& period) : void
+	+reportRevenue(const string& period) : void
+	+updatePassword(const string& username, const string& password, const string& userType) : void
+	+updateStock(string bookId, int quantity) : void
+	+viewOrders() : void
+}
+
+
+class NormalUser {
+	+NormalUser(const string& username, const string& password, Customer* customer)
+	+NormalUser(const string& username, const string& password)
+	+~NormalUser()
+	+getCustomer() : Customer*
+	+getCustomerName() : string
+	+getType() : string {query}
+}
+
+
+class NormalUserState {
+	+NormalUserState()
+	+NormalUserState(Customer* customer)
+	-customer : Customer*
+	+getCustomer() : Customer*
+	+getCustomerName() : string
+	+accountManagementMenu(ManageSys* manager) : void
+	+addToCartMenu(ManageSys* manageSys, vector<Book*>& cart, CommandInvoker& invoker) : void
+	+changePassword(ManageSys* manager, User* user) : void
+	+checkOutMenu(ManageSys* manageSys, Order* order, CommandInvoker& invoker) : void
+	+confirmationMenu(ManageSys* manageSys, vector<Book*>& cart, CommandInvoker& invoker, Order*& lastOrder) : void
+	+orderManagementMenu(CommandInvoker& invoker) : void
+	+searchBooksMenu(ManageSys* manageSys) : void
+	+showMenu() : void
+	+viewBookDetails(const string& command, ManageSys* manageSys) : void
+}
+
+
+class Order {
+	+Order(const string& id, const string& date, float amount, vector<OrderStatus> stat, vector<pair<Book*, int>>& products, Customer* cust)
+	+Order(const Order& order)
+	+~Order()
+	-customer : Customer*
+	+getCustomer() : Customer* {query}
+	+clone() : Order* {query}
+	-paymentStrategy : PaymentStrategy*
+	+getTotalAmount() : double {query}
+	-totalAmount : float
+	+getOrderDate() : string {query}
+	+getOrderID() : string {query}
+	-orderDate : string
+	-orderID : string
+	+getStatus() : vector<OrderStatus> {query}
+	-status : vector<OrderStatus>
+	+getProductList() : vector<pair<Book* , int>> {query}
+	-productList : vector<pair<Book*, int>>
+	+display() : void
+	+displayStatus() : void
+	+displaySummary() : void
+	+setOrderID(const string& id) : void
+	+setOrderStatus(vector<OrderStatus> stat) : void
+	+setPaymentStrategy(PaymentStrategy* strategy) : void
+}
+
+
+abstract class PaymentStrategy {
+	+PaymentStrategy()
+	+~PaymentStrategy()
+	+{abstract} clone() : PaymentStrategy* {query}
+	+{abstract} pay(float amount) : bool
+	+{abstract} getPaymentMethod() : string
+	+{abstract} input() : void
+}
+
+
+abstract class User {
+	+User(const string& username, const string& password)
+	+~User()
+	+getCustomer() : Customer*
+	#state : UserState*
+	+getCustomerName() : string
+	+getPassword() : string {query}
+	+{abstract} getType() : string {query}
+	+getUsername() : string {query}
+	#password : string
+	#username : string
+	+setPassword(const string& newPassword) : void
+	+setState(UserState* newState) : void
+	+showMenu() : void
+}
+
+
+abstract class UserState {
+	+~UserState()
+	+getCustomer() : Customer*
+	+getCustomerName() : string
+	+{abstract} showMenu() : void
+}
+
+
+class ViewAllOrdersCommand {
+	+ViewAllOrdersCommand(Customer* customer)
+	-customer : Customer*
+	+execute() : void
+	+undo() : void
+}
+
+
+class ViewOrderDetailsCommand {
+	+ViewOrderDetailsCommand(Order* order)
+	-order : Order*
+	+execute() : void
+	+undo() : void
+}
+
+
+enum OrderStatus {
+	COD
+	Cancelled
+	Confirmed
+	Delivered
+	Paid
+	Pending
+	Placed
+	Shipping
+}
+
+
+
+
+
+/' Inheritance relationships '/
+
+BookSpecification <|-- BookAuthorBookSpecification
+
+
+BookSpecification <|-- BookGenreBookSpecification
+
+
+BookSpecification <|-- BookPriceRangeBookSpecification
+
+
+BookSpecification <|-- BookPublisherBookSpecification
+
+
+BookSpecification <|-- BookTitleBookSpecification
+
+
+Command <|-- AddToCartCommand
+
+
+Command <|-- CancelOrderCommand
+
+
+Command <|-- CheckOutCommand
+
+
+Command <|-- ConfirmationCommand
+
+
+Command <|-- ViewAllOrdersCommand
+
+
+Command <|-- ViewOrderDetailsCommand
+
+
+PaymentStrategy <|-- BankTransfer
+
+
+PaymentStrategy <|-- COD
+
+
+PaymentStrategy <|-- CreditCard
+
+
+PaymentStrategy <|-- EWallet
+
+
+User <|-- AdminUser
+
+
+User <|-- NormalUser
+
+
+UserState <|-- AdminState
+
+
+UserState <|-- NormalUserState
+
+
+
+
+
+/' Aggregation relationships '/
+
+AddToCartCommand "2" o-- Book
+
+
+AddToCartCommand o-- ManageSys
+
+
+AdminState o-- ManageSys
+
+
+Author o-- Book
+
+
+Book o-- Author
+
+
+CancelOrderCommand o-- Order
+
+
+CheckOutCommand o-- ManageSys
+
+
+CheckOutCommand o-- Order
+
+
+CheckOutCommand o-- PaymentStrategy
+
+
+CommandInvoker o-- Command
+
+
+ConfirmationCommand o-- Book
+
+
+ConfirmationCommand o-- ManageSys
+
+
+ConfirmationCommand o-- Order
+
+
+Customer o-- Order
+
+
+ManageSys o-- Author
+
+
+ManageSys o-- Book
+
+
+ManageSys "2" o-- Customer
+
+
+ManageSys o-- ManageSys
+
+
+ManageSys o-- Order
+
+
+ManageSys o-- User
+
+
+NormalUserState o-- Customer
+
+
+Order o-- Book
+
+
+Order o-- Customer
+
+
+Order *-- OrderStatus
+
+
+Order o-- PaymentStrategy
+
+
+User o-- UserState
+
+
+ViewAllOrdersCommand o-- Customer
+
+
+ViewOrderDetailsCommand o-- Order
+
+
+
+
+
+
+/' Nested objects '/
+
+
+
+@enduml

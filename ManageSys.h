@@ -9,6 +9,8 @@
 #include <iomanip>
 #include <utility>
 #include <sstream>
+#include <fstream>
+#include <string>
 #include <cstdlib>
 #include <ctime>
 #include "Book.h"

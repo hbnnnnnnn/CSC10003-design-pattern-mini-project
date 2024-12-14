@@ -1,0 +1,7 @@
+id,name,books
+A007,Stephen King,B001
+A008,George R.R. Martin,B002
+A009,J.R.R. Tolkien,B003
+A010,Brandon Sanderson,B004
+A011,Terry Pratchett,B005
+A012,Patrick Rothfuss,B006

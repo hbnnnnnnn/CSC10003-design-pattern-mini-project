@@ -160,19 +160,19 @@ void AdminState::reportManagementMenu() {
 
         switch (choice) {
             case 1:
-                cout << "> Enter period (e.g., '2023', '2023-01', '2023-01-15'): ";
+                cout << "> Enter period (e.g., '2024-12-11'): ";
                 cin.ignore();
                 getline(cin, period);
                 manageSys->reportRevenue(period);
                 break;
             case 2:
-                cout << "> Enter period (e.g., '2023', '2023-01', '2023-01-15'): ";
+                cout << "> Enter period (e.g., '2024-12-11'): ";
                 cin.ignore();
                 getline(cin, period);
                 manageSys->reportBooksSold(period);
                 break;
             case 3:
-                cout << "> Enter period (e.g., '2023', '2023-01', '2023-01-15'): ";
+                cout << "> Enter period (e.g., '2024-12-11'): ";
                 cin.ignore();
                 getline(cin, period);
                 manageSys->reportCustomerCount(period);

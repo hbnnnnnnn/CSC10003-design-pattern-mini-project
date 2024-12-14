@@ -1,0 +1,7 @@
+id,name,genre,year,publisher,price,stock,description,authors
+B009,The Dark Tower,Fantasy,1982,Grant,29.99,100,A gunslinger embarks on a quest to reach the Dark Tower.,A001
+B010,The Winds of Winter,Fantasy,2025,Bantam Books,49.99,200,A much-awaited continuation of the epic "A Song of Ice and Fire" series.,A002
+B011,The Silmarillion,Fantasy,1977,George Allen & Unwin,39.99,150,A history of Middle-Earth and the First Age of the world.,A003
+B012,Warbreaker,Fantasy,2009,Tor Books,19.99,180,A story of magic politics and war in the land of Idris.,A004
+B013,Good Omens,Fantasy,1990,Gollancz,24.99,75,An angel and a demon team up to prevent the apocalypse.,A005
+B014,The Wise Man's Fear,Fantasy,2011,DAW Books,29.99,120,The continuation of Kvothe's story in the "Kingkiller Chronicle.",A006

@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1734158918 source:c:\clc06\normaluserstate.cpp
+1734165053 source:c:\clc06\normaluserstate.cpp
 	"NormalUserState.h"
 
 1734162744 c:\clc06\normaluserstate.h
@@ -19,7 +19,7 @@
 	<vector>
 	"Order.h"
 
-1734147534 c:\clc06\order.h
+1734168927 c:\clc06\order.h
 	<string>
 	<vector>
 	"Book.h"
@@ -27,13 +27,13 @@
 	"PaymentStrategy.h"
 	<utility>
 
-1734154499 c:\clc06\book.h
+1734168733 c:\clc06\book.h
 	<iostream>
 	<string>
 	<vector>
 	<algorithm>
 
-1734147534 c:\clc06\customer.h
+1734168659 c:\clc06\customer.h
 	<string>
 	<iostream>
 	"CustomerMemento.h"
@@ -44,7 +44,7 @@
 	"AdminUser.h"
 	"AdminState.h"
 
-1734162134 c:\clc06\managesys.h
+1734191421 c:\clc06\managesys.h
 	<iostream>
 	<string>
 	<vector>
@@ -53,6 +53,8 @@
 	<iomanip>
 	<utility>
 	<sstream>
+	<fstream>
+	<string>
 	<cstdlib>
 	<ctime>
 	"Book.h"
@@ -91,11 +93,11 @@
 	"Book.h"
 	"Author.h"
 
-1734096647 source:c:\clc06\book.cpp
+1734165835 source:c:\clc06\book.cpp
 	"Author.h"
 	"Book.h"
 
-1734153515 source:c:\clc06\adminstate.cpp
+1734195174 source:c:\clc06\adminstate.cpp
 	"AdminState.h"
 	"Book.h"
 	"Author.h"
@@ -103,19 +105,19 @@
 	<iostream>
 	<unordered_map>
 
-1734159177 source:c:\clc06\main.cpp
+1734165905 source:c:\clc06\main.cpp
 	"ManageSys.h"
 	"AdminState.h"
 	"NormalUserState.h"
 	<iostream>
 	<string>
 
-1734156943 source:c:\clc06\managesys.cpp
+1734194693 source:c:\clc06\managesys.cpp
 	"ManageSys.h"
 	"AdminUser.h"
 	"OrderUtils.h"
 
-1734152890 source:c:\clc06\order.cpp
+1734168841 source:c:\clc06\order.cpp
 	"Order.h"
 	<iomanip>
 	<iostream>
@@ -151,7 +153,7 @@
 	"Command.h"
 	"Book.h"
 
-1734151671 c:\clc06\checkoutcommand.h
+1734164241 c:\clc06\checkoutcommand.h
 	"Command.h"
 	"Order.h"
 	"PaymentStrategy.h"
@@ -160,15 +162,15 @@
 	"CreditCard.h"
 	"COD.h"
 
-1734147534 c:\clc06\creditcard.h
+1734164433 c:\clc06\creditcard.h
 	"PaymentStrategy.h"
 	<iostream>
 
-1734147534 c:\clc06\banktransfer.h
+1734164413 c:\clc06\banktransfer.h
 	"PaymentStrategy.h"
 	<iostream>
 
-1734147534 c:\clc06\ewallet.h
+1734164447 c:\clc06\ewallet.h
 	"PaymentStrategy.h"
 	<iostream>
 
@@ -193,7 +195,7 @@
 	<iostream>
 	<iomanip>
 
-1734159268 source:c:\clc06\customer.cpp
+1734166139 source:c:\clc06\customer.cpp
 	"Customer.h"
 	"Order.h"
 
@@ -207,11 +209,11 @@
 	"ManageSys.h"
 	"Book.h"
 
-1734151622 source:c:\clc06\checkoutcommand.cpp
+1734164731 source:c:\clc06\checkoutcommand.cpp
 	"CheckOutCommand.h"
 	"ManageSys.h"
 
-1734157373 source:c:\clc06\confirmationcommand.cpp
+1734159451 source:c:\clc06\confirmationcommand.cpp
 	"ConfirmationCommand.h"
 	"ManageSys.h"
 
@@ -227,6 +229,6 @@
 	<string>
 	"Order.h"
 
-1734152745 source:c:\clc06\orderutils.cpp
+1734191464 source:c:\clc06\orderutils.cpp
 	"OrderUtils.h"
 

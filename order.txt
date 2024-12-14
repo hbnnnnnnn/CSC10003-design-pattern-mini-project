@@ -1,0 +1,6 @@
+orderID,orderDate,totalAmount,status,productList,customerID
+O101,2024-01-15,74.97,Placed|Paid,B004:2|B006:1,user1
+O102,2024-02-20,62.98,Placed|Shipping,B005:1|B007:2,user2
+O103,2024-03-05,89.97,Placed|Confirmed|Paid,B004:3|B007:1,user2
+O104,2024-04-10,44.99,Placed,B008:1|B005:1,user1
+O105,2024-04-12,129.96,Placed|Shipping,B006:4,user2
