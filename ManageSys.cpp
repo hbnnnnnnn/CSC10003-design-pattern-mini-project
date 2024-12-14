@@ -5,12 +5,37 @@
 ManageSys* ManageSys::instance = nullptr;
 
 ManageSys::ManageSys() : currentUser(nullptr) {
+    // Admin credentials
     adminCredentials["admin1"] = "12345678";
     adminCredentials["admin2"] = "27072005";
 
-    normalUserCredentials["user1"] = "21032005";
-    normalUserCredentials["user2"] = "08032005";
+    // Authors
+    authors.push_back(new Author("A001", "J.K. Rowling"));
+    authors.push_back(new Author("A002", "George R.R. Martin"));
+    authors.push_back(new Author("A003", "J.R.R. Tolkien"));
+
+    // Books
+    books.push_back(new Book("B001", "Harry Potter", "Fantasy", 2000, "Bloomsbury", 39.9, 100, "A young wizard's journey at Hogwarts.", { authors[0] }));
+    books.push_back(new Book("B002", "Game of Thrones", "Fantasy", 1996, "Bantam Books", 29.9, 50, "A tale of power, betrayal, and war in Westeros.", { authors[1] }));
+    books.push_back(new Book("B003", "The Hobbit", "Fantasy", 1937, "George Allen & Unwin", 49.9, 80, "A hobbit's epic adventure to reclaim a treasure.", { authors[2] }));
+
+    // Customers and credentials
+    Customer* cust1 = new Customer("C001", "John Doe", "123456789", "john@example.com", "123 Main St");
+    Customer* cust2 = new Customer("C002", "Jane Smith", "987654321", "jane@example.com", "456 Elm St");
+    customerData["user1"] = cust1;
+    customerCredentials["user1"] = "21032005";
+    customerData["user2"] = cust2;
+    customerCredentials["user2"] = "08032005";
+
+    // Orders
+    vector<pair<Book*, int>> orderProducts = { { books[0], 2 }, { books[1], 1 } };
+    Order* order1 = new Order("O001", "2024-12-10", 129.97, { OrderStatus::Placed }, orderProducts, cust1);
+    orders.push_back(order1);
+    cust1->addOrder(order1);
+
+    cout << "ManageSys initialized successfully!" << endl;
 }
+
 
 ManageSys* ManageSys::getInstance() {
     if (!instance) {
@@ -33,31 +58,54 @@ void ManageSys::addBook(Book *book)
     }
 }
 
+bool ManageSys::signup(const string& username, const string& password, const string& userType) {
+    if (userType == "admin") {
+        if (adminCredentials.find(username) == adminCredentials.end()) {
+            adminCredentials[username] = password;
+            currentUser = new AdminUser(username, password);
+            cout << "Admin account created successfully!" << endl;
+            return true;
+        }
+    } else if (userType == "customer") {
+        if (customerData.find(username) == customerData.end()) {
+            Customer* customer = new Customer;
+            customer->input();
+            customerData[username] = customer;
+            customerCredentials[username] = password;
+            currentUser = new NormalUser(username, password, customer);
+            cout << "Customer user account created successfully!" << endl;
+            return true;
+        }
+    }
+    cout << "Username already exists." << endl;
+    return false;
+}
+
 bool ManageSys::login(const string& username, const string& password, const string& userType) {
     if (userType == "admin") {
-            auto it = adminCredentials.find(username);
-            if (it != adminCredentials.end() && it->second == password) {
-                cout << "Admin login successful!" << endl;
-                currentUser = new AdminUser(username, password);  // Assign an Admin object
-                return true;
-            }
-        } else if (userType == "customer") {
-            auto it = normalUserCredentials.find(username);
-            if (it != normalUserCredentials.end() && it->second == password) {
-                cout << "Customer user login successful!" << endl;
-                Customer* customer = new Customer;
-                //customer->input();
-                currentUser = new NormalUser(username, password, customer);
-                return true;
-            }
+        auto it = adminCredentials.find(username);
+        if (it != adminCredentials.end() && it->second == password) {
+            cout << "Admin login successful!" << endl;
+            currentUser = new AdminUser(username, password);
+            return true;
         }
-        cout << "Invalid login credentials." << endl;
-        return false;
+    } else if (userType == "customer") {
+        auto it = customerCredentials.find(username);
+        if (it != customerCredentials.end() && it->second == password) {
+            cout << "Customer user login successful!" << endl;
+            currentUser = new NormalUser(username, password, customerData[username]);
+            return true;
+        }
+    }
+    cout << "Invalid login credentials." << endl;
+    return false;
 }
 
 void ManageSys::logout() {
-    delete currentUser;
-    currentUser = nullptr;
+    if (currentUser) {
+        delete currentUser;
+        currentUser = nullptr;
+    }
     cout << "Logged out successfully!" << endl;
 }
 
@@ -79,31 +127,6 @@ void ManageSys::deleteBook(string bookId) {
             return;
         }
     }
-}
-
-bool ManageSys::signup(const string &username, const string &password, const string &userType)
-{
-    if (userType == "admin") {
-        auto it = adminCredentials.find(username);
-        if (it == adminCredentials.end()) {
-            adminCredentials[username] = password;
-            currentUser = new AdminUser(username, password);
-            cout << "Admin account created successfully!" << endl;
-            return true;
-        }
-    } else if (userType == "customer") {
-        auto it = normalUserCredentials.find(username);
-        if (it == normalUserCredentials.end()) {
-            normalUserCredentials[username] = password;
-            Customer* customer = new Customer;
-            customer->input();
-            currentUser = new NormalUser(username, password, customer);
-            cout << "Customer user account created successfully!" << endl;
-            return true;
-        }
-    }
-    cout << "Username already exists." << endl;
-    return false;
 }
 
 void ManageSys::addBook(const string &title, const string &genre, int year, const string &publisher, double price, int stock, const vector<string> &authors)
@@ -262,7 +285,7 @@ vector<Book *> ManageSys::searchBooks(BookSpecification *spec)
 string joinAuthors(const vector<Author*>& authors, const string& delimiter = ", ") {
     ostringstream oss;
     for (size_t i = 0; i < authors.size(); ++i) {
-        oss << authors[i];
+        oss << authors[i]->getName();
         if (i < authors.size() - 1) {
             oss << delimiter; // Add delimiter between authors
         }
@@ -295,7 +318,7 @@ void ManageSys::printBooks(vector<Book*> books)
         cout << "| " << left << setw(idWidth) << book->getId()
              << "| " << setw(titleWidth) << book->getName()
              << "| " << setw(authorWidth) << joinAuthors(book->getAuthors())
-             << "| " << setw(priceWidth) << fixed << setprecision(0) << book->getPrice()
+             << "| " << setw(priceWidth) << fixed << setprecision(2) << book->getPrice()
              << " |" << endl;
     }
 }
@@ -370,13 +393,16 @@ string getRandomOrderDate(int startYear, int endYear) {
 }
 
 Order* ManageSys::createNewOrder(float amount, vector<pair<Book*, int>> productList, Customer* customer) {
+    if (!customer) {
+        cout << "Error: Customer is null during order creation." << endl;
+        return nullptr;
+    }
     string orderId = randomOrderId();
-    time_t now = time(0);
     string orderDate = getRandomOrderDate(2023, 2024);
-    OrderStatus status = OrderStatus::Placed;
-    Order* order = new Order(orderId, orderDate, amount, {OrderStatus::Placed}, productList, customer);
-    return order;
+    vector<OrderStatus> status = {OrderStatus::Placed};
+    return new Order(orderId, orderDate, amount, status, productList, customer);
 }
+
 
 void ManageSys::displayOrderDetails(const string& orderID) {
     for (const auto& order : orders) {
@@ -425,8 +451,8 @@ void ManageSys::displayOrderDetails(const string& orderID) {
 
 void ManageSys::updatePassword(const string& username, const string& newPassword, const string& userType) {
     if (userType == "customer") {
-        if (normalUserCredentials.find(username) != normalUserCredentials.end()) {
-            normalUserCredentials[username] = newPassword;
+        if (customerCredentials.find(username) != customerCredentials.end()) {
+            customerCredentials[username] = newPassword;
             cout << "Password updated successfully!" << endl;
         } else {
             cout << "User not found!" << endl;

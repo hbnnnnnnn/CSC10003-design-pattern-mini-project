@@ -62,7 +62,8 @@ public:
         : minPrice(minPrice), maxPrice(maxPrice) {}
     bool isSatisfied(Book* item) override {
         double price = item->getPrice();
-        return price >= minPrice && price <= maxPrice;
+        const double EPSILON = 1e-9;
+        return (price + EPSILON >= minPrice) && (price - EPSILON <= maxPrice);
     }
 };
 

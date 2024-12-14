@@ -47,8 +47,12 @@ public:
     }
 
     virtual ~User() {
-        delete state;
+        if (state) {
+            delete state; // Delete the state only if it's not nullptr
+            state = nullptr; // Prevent accidental double deletion
+        }
     }
+
 };
 
 #endif // USER_H

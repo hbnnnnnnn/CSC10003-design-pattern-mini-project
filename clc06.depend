@@ -1,8 +1,8 @@
 # depslib dependency file v1.0
-1734121901 source:c:\clc06\normaluserstate.cpp
+1734158918 source:c:\clc06\normaluserstate.cpp
 	"NormalUserState.h"
 
-1734147534 c:\clc06\normaluserstate.h
+1734162744 c:\clc06\normaluserstate.h
 	"ManageSys.h"
 	"CommandInvoker.h"
 	"AddToCartCommand.h"
@@ -27,7 +27,7 @@
 	"PaymentStrategy.h"
 	<utility>
 
-1734147534 c:\clc06\book.h
+1734154499 c:\clc06\book.h
 	<iostream>
 	<string>
 	<vector>
@@ -44,7 +44,7 @@
 	"AdminUser.h"
 	"AdminState.h"
 
-1734153280 c:\clc06\managesys.h
+1734162134 c:\clc06\managesys.h
 	<iostream>
 	<string>
 	<vector>
@@ -69,15 +69,15 @@
 	<string>
 	<vector>
 
-1734147534 c:\clc06\user.h
+1734155599 c:\clc06\user.h
 	<string>
 	"UserState.h"
 
-1734152986 c:\clc06\adminuser.h
+1734155639 c:\clc06\adminuser.h
 	<iostream>
 	"User.h"
 
-1734151959 c:\clc06\normaluser.h
+1734155651 c:\clc06\normaluser.h
 	<iostream>
 	"NormalUserState.h"
 	"User.h"
@@ -95,7 +95,7 @@
 	"Author.h"
 	"Book.h"
 
-1734118583 source:c:\clc06\adminstate.cpp
+1734153515 source:c:\clc06\adminstate.cpp
 	"AdminState.h"
 	"Book.h"
 	"Author.h"
@@ -103,14 +103,14 @@
 	<iostream>
 	<unordered_map>
 
-1734118449 source:c:\clc06\main.cpp
+1734159177 source:c:\clc06\main.cpp
 	"ManageSys.h"
 	"AdminState.h"
 	"NormalUserState.h"
 	<iostream>
 	<string>
 
-1734153285 source:c:\clc06\managesys.cpp
+1734156943 source:c:\clc06\managesys.cpp
 	"ManageSys.h"
 	"AdminUser.h"
 	"OrderUtils.h"
@@ -121,7 +121,7 @@
 	<iostream>
 	"OrderUtils.h"
 
-1734147534 c:\clc06\bookspecification.h
+1734156712 c:\clc06\bookspecification.h
 	"Book.h"
 	<algorithm>
 	<string>
@@ -193,7 +193,7 @@
 	<iostream>
 	<iomanip>
 
-1734119599 source:c:\clc06\customer.cpp
+1734159268 source:c:\clc06\customer.cpp
 	"Customer.h"
 	"Order.h"
 
@@ -211,11 +211,11 @@
 	"CheckOutCommand.h"
 	"ManageSys.h"
 
-1734151443 source:c:\clc06\confirmationcommand.cpp
+1734157373 source:c:\clc06\confirmationcommand.cpp
 	"ConfirmationCommand.h"
 	"ManageSys.h"
 
-1734152365 source:c:\clc06\normaluser.cpp
+1734155660 source:c:\clc06\normaluser.cpp
 	"NormalUser.h"
 	"NormalUserState.h"
 

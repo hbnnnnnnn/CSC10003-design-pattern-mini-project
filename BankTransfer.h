@@ -11,7 +11,7 @@ public:
     BankTransfer() = default;
     BankTransfer(const BankTransfer& bankTransfer) = default;
     void input() override {
-        cout << "No input required for COD." << endl;
+        cout << "No input required for bank transfer." << endl;
     }
     bool pay(float amount) override {
         cout << "Processing bank transfer payment..." << endl;

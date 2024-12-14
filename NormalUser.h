@@ -15,7 +15,7 @@ public:
     Customer* getCustomer() override;
     string getType() const override;
     string getCustomerName() override;
-    ~NormalUser() override;
+    ~NormalUser() override {};
 };
 
 #endif // NORMALUSER_H

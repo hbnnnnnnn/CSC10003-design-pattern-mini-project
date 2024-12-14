@@ -17,16 +17,23 @@ class NormalUserState : public UserState {
 public:
     NormalUserState() : customer(nullptr) {}
     NormalUserState(Customer* customer) : customer(customer) {}
-    
+
     void showMenu() override;
     void orderManagementMenu(CommandInvoker& invoker);
-    void confirmationMenu(ManageSys* manageSys, vector<Book*>& cart, CommandInvoker& invoker);
+    void confirmationMenu(ManageSys* manageSys, vector<Book*>& cart, CommandInvoker& invoker, Order*& lastOrder);
     void searchBooksMenu(ManageSys* manageSys);
     void viewBookDetails(const string& command, ManageSys* manageSys);
     void addToCartMenu(ManageSys* manageSys, vector<Book*>& cart, CommandInvoker& invoker);
     void checkOutMenu(ManageSys* manageSys, Order* order, CommandInvoker& invoker);
     void accountManagementMenu(ManageSys* manager);
     void changePassword(ManageSys* manager, User* user);
+    Customer* getCustomer() override {
+        return customer;
+    }
+
+    string getCustomerName() override {
+        return customer->getName();
+    }
 };
 
 #endif // NORMALUSERSTATE_H

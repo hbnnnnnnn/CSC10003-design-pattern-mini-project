@@ -31,7 +31,8 @@ class ManageSys {
     User* currentUser;
     static ManageSys* instance;
     unordered_map<string, string> adminCredentials;
-    unordered_map<string, string> normalUserCredentials;
+    unordered_map<string, string> customerCredentials;
+    unordered_map<string, Customer*> customerData;
     ManageSys();
 public:
     static ManageSys* getInstance();

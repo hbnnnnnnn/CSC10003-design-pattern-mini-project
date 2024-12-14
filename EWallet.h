@@ -23,6 +23,7 @@ public:
         cout << "> Enter your choice (1-3): ";
         int choice;
         cin >> choice;
+        cin.ignore();
         switch (choice) {
             case 1:
                 walletName = "Zalopay";

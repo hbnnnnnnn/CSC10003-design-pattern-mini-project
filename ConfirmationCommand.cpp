@@ -22,22 +22,47 @@ void ConfirmationCommand::execute() {
             return;
         }
 
-        manager->printBooks(cart);
+        // Convert the cart to a book-count mapping
+        vector<pair<Book*, int>> bookCountVector = convertCartToBookCount(cart);
 
-        manager->getCurrentUser()->getCustomer()->display();
+        // Display aggregated cart details
+        cout << "\n> Cart Summary:\n";
+        const int idWidth = 10, titleWidth = 30, authorWidth = 30, priceWidth = 10, qtyWidth = 10;
+        cout << "| " << left << setw(idWidth) << "Book ID"
+             << "| " << setw(titleWidth) << "Title"
+             << "| " << setw(authorWidth) << "Author"
+             << "| " << setw(priceWidth) << "Price"
+             << "| " << setw(qtyWidth) << "Qty"
+             << " |" << endl;
+        cout << "|-" << setfill('-') << setw(idWidth) << ""
+             << "|-" << setw(titleWidth) << ""
+             << "|-" << setw(authorWidth) << ""
+             << "|-" << setw(priceWidth) << ""
+             << "|-" << setw(qtyWidth) << ""
+             << "-|" << setfill(' ') << endl;
 
         totalAmount = 0;
-        for (auto book : cart) {
-            totalAmount += book->getPrice();
+        for (const auto& bookCount : bookCountVector) {
+            Book* book = bookCount.first;
+            int quantity = bookCount.second;
+
+            cout << "| " << left << setw(idWidth) << book->getId()
+                 << "| " << setw(titleWidth) << book->getName()
+                 << "| " << setw(authorWidth) << book->getAuthors()[0]->getName()  // Assuming one author
+                 << "| " << setw(priceWidth) << fixed << setprecision(2) << book->getPrice()
+                 << "| " << setw(qtyWidth) << quantity
+                 << " |" << endl;
+
+            totalAmount += book->getPrice() * quantity;
         }
 
         cout << "Total amount: " << totalAmount << endl;
         cout << "Proceed to check out? (y/n): ";
         char choice;
         cin >> choice;
+        cin.ignore();
 
         if (choice == 'y') {
-            vector<pair<Book*, int>> bookCountVector = convertCartToBookCount(cart);
             lastOrder = manager->createNewOrder(totalAmount, bookCountVector, manager->getCurrentUser()->getCustomer());
             manager->addOrder(lastOrder);
             cout << "Confirmation successful. Order id: " << lastOrder->getOrderID() << endl;
@@ -49,6 +74,7 @@ void ConfirmationCommand::execute() {
         cout << "You must log in as a customer first." << endl;
     }
 }
+
 
 Order* ConfirmationCommand::getLastOrder() const {
     return lastOrder;

@@ -20,7 +20,3 @@ string NormalUser::getCustomerName() {
 string NormalUser::getType() const {
     return "customer";
 }
-
-NormalUser::~NormalUser() {
-    delete state;
-}

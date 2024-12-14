@@ -29,7 +29,6 @@ void Customer::restore(CustomerMemento* memento) {
 
 void Customer::input() {
     cout << "Enter Customer Name: ";
-    cin.ignore();
     getline(cin, name);
     cout << "Enter Phone Number: ";
     cin >> phoneNumber;
@@ -38,6 +37,7 @@ void Customer::input() {
     getline(cin, shippingAddress);
     cout << "Enter Email: ";
     cin >> email;
+    cin.ignore();
 }
 
 Order* Customer::getOrderById(const string& orderId) {

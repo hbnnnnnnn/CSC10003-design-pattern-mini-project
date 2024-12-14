@@ -25,6 +25,7 @@ public:
         cin >> expiryDate;
         cout << "Enter CVV: ";
         cin >> cvv;
+        cin.ignore();
     }
     bool pay(float amount) override {
         cout << "Processing credit card payment..." << endl;

@@ -24,6 +24,11 @@ void Order::display() {
     cout << "Order Date: " << orderDate << endl;
     cout << "Total Amount: " << totalAmount << endl;
     cout << "Status: " << getStatusAsString(status.back()) << endl;
+    if (!customer) {
+        cout << "Error: Customer is null in this order." << endl;
+        return;
+    }
+
     cout << "Customer: " << customer->getName() << endl;
 
     // Display products

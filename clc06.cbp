@@ -66,6 +66,8 @@
 		<Unit filename="NormalUserState.h" />
 		<Unit filename="Order.cpp" />
 		<Unit filename="Order.h" />
+		<Unit filename="OrderUtils.cpp" />
+		<Unit filename="OrderUtils.h" />
 		<Unit filename="PaymentStrategy.h" />
 		<Unit filename="User.h" />
 		<Unit filename="UserState.h" />

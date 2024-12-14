@@ -1,6 +1,10 @@
 #include "NormalUserState.h"
 
 void NormalUserState::showMenu() {
+    if (!customer) {
+        cout << "Error: No customer linked to this user. Please log in again." << endl;
+        return;
+    }
     ManageSys* manageSys = ManageSys::getInstance();
     vector<Book*> cart;
     CommandInvoker invoker;
@@ -28,7 +32,7 @@ void NormalUserState::showMenu() {
         } else if (input == "Add to cart") {
             addToCartMenu(manageSys, cart, invoker);
         } else if (input == "Confirm order") {
-            confirmationMenu(manageSys, cart, invoker);
+            confirmationMenu(manageSys, cart, invoker, lastOrder);
         } else if (input == "Check out") {
             checkOutMenu(manageSys, lastOrder, invoker);
         } else if (input == "Order management") {
@@ -171,55 +175,44 @@ void NormalUserState::addToCartMenu(ManageSys* manageSys, vector<Book*>& cart, C
     }
 }
 
-void NormalUserState::confirmationMenu(ManageSys* manageSys, vector<Book*>& cart, CommandInvoker& invoker) {
+void NormalUserState::confirmationMenu(ManageSys* manageSys, vector<Book*>& cart, CommandInvoker& invoker, Order*& lastOrder) {
     if (cart.empty()) {
         cout << "Your cart is empty. Add books to your cart first." << endl;
         return;
     }
 
-    Command* confirmation = new ConfirmationCommand(manageSys, cart);
-    invoker.executeCommand(confirmation);
-}
+    if (customer) {
+        Command* confirmation = new ConfirmationCommand(manageSys, cart);
+        invoker.executeCommand(confirmation);
+        lastOrder = confirmation->getLastOrder();
+    } else {
+        cout << "Error: Customer not set in NormalUserState." << endl;
+    }
 
+}
 void NormalUserState::checkOutMenu(ManageSys* manageSys, Order* order, CommandInvoker& invoker) {
     if (!order || order->getProductList().empty()) {
-        cout << "Your cart is empty. Please add items before checking out." << endl;
+        cout << "No order to check out or the cart is empty. Please add items before checking out." << endl;
         return;
     }
 
     cout << "\n> Checkout:" << endl;
-    order->display();
 
-    cout << "Choose a payment method:\n";
-    cout << "1. Credit Card\n2. Bank Transfer\n3. E-Wallet\n4. COD\n";
-    cout << "Enter your choice (1-4): ";
-
-    int choice;
-    cin >> choice;
-
-    PaymentStrategy* paymentMethod = nullptr;
-    switch (choice) {
-        case 1:
-            paymentMethod = new CreditCard();
-            break;
-        case 2:
-            paymentMethod = new BankTransfer();
-            break;
-        case 3:
-            paymentMethod = new EWallet();
-            break;
-        case 4:
-            paymentMethod = new COD();
-            break;
-        default:
-            cout << "Invalid choice." << endl;
-            return;
+    try {
+        order->display();
+    }
+    catch (...) {
+        cout << "Error displaying order details. Please try again." << endl;
+        return;
     }
 
-    paymentMethod->input();
-    Command* checkOutCommand = new CheckOutCommand(order, paymentMethod);
+    // Use CheckOutCommand to handle the checkout process
+    Command* checkOutCommand = new CheckOutCommand(manageSys, order);
     invoker.executeCommand(checkOutCommand);
+
+    // CommandInvoker manages memory cleanup, so no manual delete needed here
 }
+
 
 
 void NormalUserState::accountManagementMenu(ManageSys* manager) {
@@ -322,8 +315,6 @@ void NormalUserState::changePassword(ManageSys* manager, User* user) {
 
     user->setPassword(newPassword);
     manager->updatePassword(user->getUsername(), newPassword, "customer");
-
-    cout << "Password updated successfully!" << endl;
 }
 
 void NormalUserState::orderManagementMenu(CommandInvoker& invoker) {
@@ -349,6 +340,7 @@ void NormalUserState::orderManagementMenu(CommandInvoker& invoker) {
             case 2: { // View order details
                 cout << "Enter Order ID to view details: ";
                 cin >> orderId;
+                cin.ignore();
                 selectedOrder = customer->getOrderById(orderId);
                 if (selectedOrder) {
                     invoker.executeCommand(new ViewOrderDetailsCommand(selectedOrder));
@@ -361,9 +353,10 @@ void NormalUserState::orderManagementMenu(CommandInvoker& invoker) {
             case 3: { // Cancel an order
                 cout << "Enter Order ID to cancel: ";
                 cin >> orderId;
+                cin.ignore();
                 selectedOrder = customer->getOrderById(orderId);
-                if (selectedOrder && 
-                    (selectedOrder->getStatus().back() == OrderStatus::Placed || 
+                if (selectedOrder &&
+                    (selectedOrder->getStatus().back() == OrderStatus::Placed ||
                      selectedOrder->getStatus().back() == OrderStatus::Confirmed)) {
                     invoker.executeCommand(new CancelOrderCommand(selectedOrder));
                 } else {

@@ -55,17 +55,13 @@ int main() {
 
             // Delegate to the logged-in user's state
             User* currentUser = manager->getCurrentUser();
-            if (userType == "admin") {
-                AdminState adminState(manager);
-                adminState.showMenu();
-            } else if (userType == "customer") {
-                NormalUserState normalUserState;
-                normalUserState.showMenu();
-            }
+
+            currentUser->showMenu();
 
             // After the user logs out
             manager->logout();
-        } 
+            continue;
+        }
         else if (command == "Sign up") {
             cout << "1. Admin" << endl;
             cout << "2. Customer" << endl;
@@ -94,11 +90,11 @@ int main() {
             }
 
             cout << "Account created successfully. Please login to proceed." << endl;
-        } 
+        }
         else if (command == "Exit") {
             cout << "Exiting the program. Goodbye!" << endl;
             break;
-        } 
+        }
         else {
             cout << "Invalid command. Please try again." << endl;
         }

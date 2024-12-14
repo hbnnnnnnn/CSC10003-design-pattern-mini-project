@@ -15,10 +15,9 @@ private:
     ManageSys* manager;
     Order* order;
     PaymentStrategy* paymentMethod;
-
 public:
-    CheckOutCommand(Order* order, PaymentStrategy* paymentMethod)
-        : order(order), paymentMethod(paymentMethod) {}
+    CheckOutCommand(ManageSys* manager, Order* order)
+        : manager(manager), order(order), paymentMethod(nullptr) {}
 
     void execute() override;
 
