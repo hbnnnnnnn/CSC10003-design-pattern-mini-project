@@ -29,7 +29,8 @@ string Author::getName() {
 }
 
 vector<Book*> Author::getBooks() {
-    return books;
+    static vector<Book*> emptyBooks; // Return a valid empty vector as fallback
+    return books.empty() ? emptyBooks : books;
 }
 
 void Author::setId(string id) {

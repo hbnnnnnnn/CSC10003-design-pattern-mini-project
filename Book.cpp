@@ -54,7 +54,8 @@ int Book::getStock() {
 }
 
 vector<Author*> Book::getAuthors() {
-    return authors;
+    static vector<Author*> emptyAuthors; // Return a valid empty vector as fallback
+    return authors.empty() ? emptyAuthors : authors;
 }
 
 void Book::setId(string id) {
