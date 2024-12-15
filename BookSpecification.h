@@ -29,6 +29,11 @@ class BookGenreBookSpecification : public BookSpecification {
 public:
     BookGenreBookSpecification(const string& genre) : genre(genre) {}
     bool isSatisfied(Book* item) override {
+        // Check if the genre is valid
+        if (!item) {
+            return false;
+        }
+        // Ensure getGenre() returns a valid genre string
         return item->getGenre() == genre;
     }
 };
@@ -39,9 +44,19 @@ public:
     BookAuthorBookSpecification(const string& author) : author(author) {}
     bool isSatisfied(Book* item) override {
         vector<Author*> authors = item->getAuthors();
-        return any_of(authors.begin(), authors.end(), [this](Author* a) {
-            return a->getName() == author;
-        });
+        
+        // Check if authors vector is empty
+        if (authors.empty()) {
+            return false;
+        }
+        
+        // Loop through authors and check if any author's name matches
+        for (Author* a : authors) {
+            if (a && a->getName() == author) {  // Check for null pointer before calling getName()
+                return true;
+            }
+        }
+        return false;
     }
 };
 

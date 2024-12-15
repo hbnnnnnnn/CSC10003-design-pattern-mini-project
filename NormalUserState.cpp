@@ -81,6 +81,7 @@ void NormalUserState::searchBooksMenu(ManageSys* manageSys) {
 
         int choice;
         cin >> choice;
+        cin.ignore();
 
         string input;
         BookSpecification* spec = nullptr;
@@ -88,28 +89,28 @@ void NormalUserState::searchBooksMenu(ManageSys* manageSys) {
         switch (choice) {
             case 1: {
                 cout << "Enter book title: ";
-                cin.ignore();
+                //cin.ignore();
                 getline(cin, input);
                 spec = new BookTitleBookSpecification(input);
                 break;
             }
             case 2: {
                 cout << "Enter book genre: ";
-                cin.ignore();
+               // cin.ignore();
                 getline(cin, input);
                 spec = new BookGenreBookSpecification(input);
                 break;
             }
             case 3: {
                 cout << "Enter author name: ";
-                cin.ignore();
+                //cin.ignore();
                 getline(cin, input);
                 spec = new BookAuthorBookSpecification(input);
                 break;
             }
             case 4: {
                 cout << "Enter publisher name: ";
-                cin.ignore();
+                //cin.ignore();
                 getline(cin, input);
                 spec = new BookPublisherBookSpecification(input);
                 break;
@@ -120,6 +121,7 @@ void NormalUserState::searchBooksMenu(ManageSys* manageSys) {
                 cin >> minPrice;
                 cout << "Enter maximum price: ";
                 cin >> maxPrice;
+                cin.ignore();
                 spec = new BookPriceRangeBookSpecification(minPrice, maxPrice);
                 break;
             }

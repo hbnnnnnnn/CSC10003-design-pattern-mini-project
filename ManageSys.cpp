@@ -455,11 +455,11 @@ void ManageSys::importOrdersFromFile(const string& filename) {
 }
 
 
-vector<Book *> ManageSys::searchBooks(BookSpecification *spec)
-{
+vector<Book*> ManageSys::searchBooks(BookSpecification* spec) {
     vector<Book*> result;
-    for(auto& book : books) {
-        if(spec->isSatisfied(book)) {
+    // Ensure that books are non-null and spec is valid
+    for (Book* book : books) {
+        if (book && spec->isSatisfied(book)) {
             result.push_back(book);
         }
     }
@@ -469,16 +469,17 @@ vector<Book *> ManageSys::searchBooks(BookSpecification *spec)
 string joinAuthors(const vector<Author*>& authors, const string& delimiter = ", ") {
     ostringstream oss;
     for (size_t i = 0; i < authors.size(); ++i) {
-        oss << authors[i]->getName();
-        if (i < authors.size() - 1) {
-            oss << delimiter; // Add delimiter between authors
+        if (authors[i]) { // Null check for Author pointer
+            oss << authors[i]->getName();
+            if (i < authors.size() - 1) {
+                oss << delimiter; // Add delimiter between authors
+            }
         }
     }
-    return oss.str();
+    return oss.str().empty() ? "Unknown" : oss.str(); // Return "Unknown" if no authors
 }
 
-void ManageSys::printBooks(vector<Book*> books)
-{
+void ManageSys::printBooks(vector<Book*> books) {
     // Define column widths
     const int idWidth = 10;
     const int titleWidth = 30;
@@ -499,10 +500,24 @@ void ManageSys::printBooks(vector<Book*> books)
 
     // Print table rows
     for (const auto& book : books) {
-        cout << "| " << left << setw(idWidth) << book->getId()
-             << "| " << setw(titleWidth) << book->getName()
-             << "| " << setw(authorWidth) << joinAuthors(book->getAuthors())
-             << "| " << setw(priceWidth) << fixed << setprecision(2) << book->getPrice()
+        if (!book) { // Null check for Book pointer
+            cout << "| " << left << setw(idWidth) << "N/A"
+                 << "| " << setw(titleWidth) << "N/A"
+                 << "| " << setw(authorWidth) << "N/A"
+                 << "| " << setw(priceWidth) << "N/A"
+                 << " |" << endl;
+            continue;
+        }
+
+        string bookId = book->getId().empty() ? "Unknown" : book->getId();
+        string bookName = book->getName().empty() ? "Unknown" : book->getName();
+        string authors = joinAuthors(book->getAuthors());
+        double price = book->getPrice();
+        
+        cout << "| " << left << setw(idWidth) << bookId
+             << "| " << setw(titleWidth) << bookName
+             << "| " << setw(authorWidth) << authors
+             << "| " << setw(priceWidth) << fixed << setprecision(2) << (price > 0 ? price : 0.0)
              << " |" << endl;
     }
 }
